@@ -234,6 +234,7 @@ html.has-lantern .lit { opacity: 0.55; }
   .fog::before { animation: none; }
   .line {
     --fade-in: clamp(0, (var(--p, 0) - var(--in, 0)) / 0.02, 1);
+    --fade-out: clamp(0, (0.90 - var(--p, 0)) / 0.02, 1);
     filter: none;
     transform: none;
   }
