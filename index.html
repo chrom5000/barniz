@@ -18,7 +18,54 @@
 <body>
   <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs>
-      <!-- Verläufe, Filter und Landschafts-Symbole (Task 8–11) -->
+      <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--night)"/>
+        <stop offset="0.55" style="stop-color: var(--night-2)"/>
+        <stop offset="1" style="stop-color: var(--fog-2)"/>
+      </linearGradient>
+      <linearGradient id="g-water" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--fog-1)"/>
+        <stop offset="1" style="stop-color: var(--night-2)"/>
+      </linearGradient>
+      <radialGradient id="g-amber-glow">
+        <stop offset="0" style="stop-color: var(--amber); stop-opacity: 0.35"/>
+        <stop offset="1" style="stop-color: var(--amber); stop-opacity: 0"/>
+      </radialGradient>
+      <linearGradient id="g-schwelle" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--amber); stop-opacity: 0"/>
+        <stop offset="1" style="stop-color: var(--amber); stop-opacity: 0.5"/>
+      </linearGradient>
+      <filter id="f-blur" x="-20%" y="-200%" width="140%" height="500%">
+        <feGaussianBlur stdDeviation="6"/>
+      </filter>
+
+      <!-- Szene 1: Die Schlei. Horizont bei y 620. -->
+      <symbol id="s-schlei-sky" viewBox="0 0 1400 1000">
+        <rect x="0" y="0" width="1400" height="620" fill="url(#g-sky)"/>
+        <rect x="0" y="620" width="1400" height="380" fill="url(#g-water)"/>
+      </symbol>
+      <symbol id="s-schlei-far" viewBox="0 0 1400 1000">
+        <path d="M0 618 C120 606 260 622 400 610 C540 598 680 616 820 606 C960 596 1100 614 1240 604 C1300 600 1360 606 1400 604 L1400 660 L0 660 Z"/>
+        <g style="fill: var(--ice)" fill-opacity="0.6">
+          <circle cx="330" cy="611" r="2.2"/><circle cx="612" cy="608" r="1.8"/><circle cx="905" cy="604" r="2.4"/><circle cx="1060" cy="607" r="1.6"/>
+        </g>
+      </symbol>
+      <symbol id="s-schlei-water" viewBox="0 0 1400 1000">
+        <g style="fill: var(--ice)" fill-opacity="0.10">
+          <rect x="300" y="650" width="70" height="2"/><rect x="590" y="668" width="50" height="2"/><rect x="880" y="655" width="90" height="2"/><rect x="860" y="690" width="60" height="2"/><rect x="320" y="700" width="40" height="2"/><rect x="1040" y="672" width="45" height="2"/><rect x="600" y="730" width="120" height="2"/><rect x="870" y="760" width="80" height="2"/>
+        </g>
+        <path style="fill: var(--ice)" fill-opacity="0.12" d="M0 1000 L0 905 L120 918 L215 892 L330 922 L470 903 L565 936 L700 908 L820 942 L960 912 L1100 946 L1250 918 L1400 950 L1400 1000 Z"/>
+      </symbol>
+      <symbol id="s-schlei-mid" viewBox="0 0 1400 1000">
+        <rect x="884" y="690" width="14" height="230" rx="3"/><rect x="912" y="712" width="12" height="208" rx="3"/>
+      </symbol>
+      <symbol id="s-schlei-fg" viewBox="0 0 1400 1000">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="6">
+          <path d="M40 1000 L72 560"/><path d="M78 1000 L124 520"/><path d="M110 1000 L152 592"/><path d="M146 1000 L204 542"/><path d="M176 1000 L214 606"/><path d="M14 1000 L36 620"/>
+          <path d="M1320 1000 L1290 600"/><path d="M1360 1000 L1345 560"/><path d="M1390 1000 L1380 640"/>
+        </g>
+        <ellipse cx="124" cy="522" rx="7" ry="28" transform="rotate(8 124 522)"/><ellipse cx="204" cy="544" rx="6" ry="24" transform="rotate(10 204 544)"/><ellipse cx="1345" cy="562" rx="6" ry="26" transform="rotate(-4 1345 562)"/>
+      </symbol>
     </defs>
   </svg>
 
@@ -35,6 +82,13 @@
 
     <section class="scene" data-scene="schlei" style="--h: 250">
       <div class="stage" aria-hidden="true">
+        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-sky"/></svg></div>
+        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-far"/></svg></div>
+        <div class="fog fog--a"></div>
+        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-water"/></svg></div>
+        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-mid"/></svg></div>
+        <div class="fog fog--b"></div>
+        <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-fg"/></svg></div>
         <div class="veil"></div>
       </div>
       <div class="lines">
