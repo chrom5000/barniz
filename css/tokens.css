@@ -1,0 +1,27 @@
+:root {
+  --night: #070B14;
+  --night-2: #0C1322;
+  --fog-1: #18202F;
+  --fog-2: #28323F;
+  --fog-3: #3A4552;
+  --ice: #9FB4C7;
+  --snow: #E6EEF5;
+  --amber: #F2B84B;
+  --mute: #5B6673;
+
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --text-size: clamp(1.6rem, 4.5vw + 0.5rem, 3.4rem);
+  --mono-size: 0.7rem;
+  --gutter: clamp(1rem, 4vw, 3rem);
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Laternenposition, schreibt lantern.js */
+  --lx: 50vw;
+  --ly: 58vh;
+}
