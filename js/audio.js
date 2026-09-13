@@ -112,6 +112,7 @@ export function createAudio(button) {
     const { ctx, master } = nodes;
     if (on) {
       await ctx.resume();
+      if (!on) return;
       master.gain.setTargetAtTime(MASTER, ctx.currentTime, 0.3);
       apply();
     } else {
