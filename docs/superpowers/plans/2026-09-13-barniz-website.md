@@ -1483,11 +1483,13 @@ git commit -m "Seitengerüst, Scroll-Motor, Textzeilen und Vorhang"
 ### Task 8: Landschaft „Die Schlei“ (Szene 1) und Sprite-Grundlagen
 
 **Files:**
-- Modify: `index.html` (Sprite-`<defs>`, Bühne der Szene `schlei`)
+- Modify: `index.html` (Sprite-`<defs>`, Bühne der Szene `schlei`), `css/scenes.css` (Randstücke)
 - Test: `tests/html.test.js` (ergänzen)
 
 **Interfaces:**
-- Produces: Verläufe `#g-sky`, `#g-water`, `#g-amber-glow`, `#g-schwelle`, Filter `#f-blur`; Symbole `#s-schlei-sky`, `#s-schlei-far`, `#s-schlei-water`, `#s-schlei-mid`, `#s-schlei-fg`. Bühnen-Konvention: `.layer.layer--<art> > svg[viewBox="0 0 1400 1000"][preserveAspectRatio="xMidYMax slice"] > use[href="#s-…"]`. Wichtige Bildinhalte liegen im Bereich x 400–1000, y 400–1000 des viewBox (hochkant werden die Seiten, quer wird oben beschnitten).
+- Produces: Verläufe `#g-sky`, `#g-water`, `#g-amber-glow`, `#g-schwelle`, Filter `#f-blur`; Symbole `#s-schlei-sky`, `#s-schlei-far`, `#s-schlei-water`, `#s-schlei-mid`, `#s-schilf-l`, `#s-schilf-r`; CSS-Klassen `.edge`, `.edge--left`, `.edge--right`.
+- Bühnen-Konvention für Flächen und Motive: `.layer.layer--<art> > svg[viewBox="0 0 1400 1000"][preserveAspectRatio="xMidYMax slice"] > use[href="#s-…"]`. Sichtbarer Ausschnitt des viewBox: quer etwa x 200–1200 (oben beschnitten, y ≥ 380 sichtbar), hochkant nur etwa **x 470–930** bei voller Höhe. Motive, die auch auf dem Handy zu sehen sein müssen (Häuserzeile, Fährhaus, Fähre, Laterne, Kirchturm), liegen deshalb im Band x 470–930.
+- Bühnen-Konvention für Randstücke (Vordergrund, das immer an der Bildkante sitzen soll: Schilf, Hausecken, Mauer, Poller): innerhalb von `.layer--fg` je ein `div.edge.edge--left` / `div.edge.edge--right` mit `svg[viewBox="0 0 300 600"]` und `preserveAspectRatio="xMinYMax meet"` (links) bzw. `xMaxYMax meet` (rechts). Die Randstücke skalieren mit `meet` in eine Box von 30 vw × 55 vh und sitzen unten an der jeweiligen Bildkante, auf jedem Seitenverhältnis.
 
 - [ ] **Step 1: Test ergänzen (muss fehlschlagen)**
 
@@ -1558,14 +1560,42 @@ Den Kommentar `<!-- Verläufe, Filter und Landschafts-Symbole (Task 8–11) -->`
       <symbol id="s-schlei-mid" viewBox="0 0 1400 1000">
         <rect x="884" y="690" width="14" height="230" rx="3"/><rect x="912" y="712" width="12" height="208" rx="3"/>
       </symbol>
-      <symbol id="s-schlei-fg" viewBox="0 0 1400 1000">
-        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="6">
-          <path d="M40 1000 L72 560"/><path d="M78 1000 L124 520"/><path d="M110 1000 L152 592"/><path d="M146 1000 L204 542"/><path d="M176 1000 L214 606"/><path d="M14 1000 L36 620"/>
-          <path d="M1320 1000 L1290 600"/><path d="M1360 1000 L1345 560"/><path d="M1390 1000 L1380 640"/>
+      <!-- Randstücke (viewBox 300×600, Boden bei y 600): Schilf links und rechts, wiederverwendet in Szene 2 und 6 -->
+      <symbol id="s-schilf-l" viewBox="0 0 300 600">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="7">
+          <path d="M20 600 L46 120"/><path d="M62 600 L104 60"/><path d="M96 600 L132 190"/><path d="M140 600 L196 110"/><path d="M178 600 L214 230"/><path d="M226 600 L268 160"/><path d="M262 600 L290 300"/>
         </g>
-        <ellipse cx="124" cy="522" rx="7" ry="28" transform="rotate(8 124 522)"/><ellipse cx="204" cy="544" rx="6" ry="24" transform="rotate(10 204 544)"/><ellipse cx="1345" cy="562" rx="6" ry="26" transform="rotate(-4 1345 562)"/>
+        <ellipse cx="104" cy="62" rx="8" ry="32" transform="rotate(8 104 62)"/><ellipse cx="196" cy="112" rx="7" ry="28" transform="rotate(10 196 112)"/><ellipse cx="268" cy="162" rx="7" ry="26" transform="rotate(6 268 162)"/>
+      </symbol>
+      <symbol id="s-schilf-r" viewBox="0 0 300 600">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="7">
+          <path d="M280 600 L250 140"/><path d="M240 600 L206 80"/><path d="M198 600 L176 240"/><path d="M150 600 L110 180"/><path d="M90 600 L70 320"/>
+        </g>
+        <ellipse cx="206" cy="82" rx="8" ry="32" transform="rotate(-6 206 82)"/><ellipse cx="110" cy="182" rx="7" ry="28" transform="rotate(-10 110 182)"/>
       </symbol>
 ```
+
+- [ ] **Step 2b: Randstück-CSS an `css/scenes.css` anhängen (nach dem `.layer--fg`-Block)**
+
+```css
+/* ---- Randstücke: Vordergrund, das auf jedem Seitenverhältnis an der Bildkante sitzt ---- */
+.edge {
+  position: absolute;
+  bottom: 0;
+  height: 55vh;
+  width: 30vw;
+}
+.edge--left  { left: 20vw; }
+.edge--right { right: 20vw; }
+.edge > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+```
+
+(`left: 20vw` innerhalb der um 20 vw nach links verschobenen Ebene ist die linke Bildkante; `right: 20vw` entsprechend die rechte.)
 
 - [ ] **Step 3: Bühne der Schlei-Szene füllen**
 
@@ -1579,7 +1609,10 @@ In `index.html` die `.stage` der Szene `schlei` ersetzen durch:
         <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-water"/></svg></div>
         <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-mid"/></svg></div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-fg"/></svg></div>
+        <div class="layer layer--fg">
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
 ```
@@ -1591,15 +1624,15 @@ Expected: der neue Test schlägt jetzt nur noch für die Szenen `damm`, `lange-s
 
 - [ ] **Step 5: Im Browser prüfen**
 
-`barniz.jump('schlei', 0.3)` bei 1440 px und bei 390 px Breite, jeweils Screenshot:
-- Dunkles Wasser unten, hellerer Nebelhorizont, ferne Uferlinie mit vier winzigen kühlen Lichtern, zwei Dalben rechts, Schilf links und rechts unten, Eisränder als hellere Zacken am unteren Rand.
-- Hochkant: Schilf und Dalben noch im Bild, keine leeren Ränder.
+`barniz.jump('schlei', 0.3)` quer und hochkant (`tools/mobile.html`), jeweils Screenshot:
+- Dunkles Wasser unten, hellerer Nebelhorizont, ferne Uferlinie mit vier winzigen kühlen Lichtern, zwei Dalben rechts der Mitte, Schilf als dunkle Silhouette in beiden unteren Ecken, Eisränder als hellere Zacken am unteren Rand.
+- Hochkant: Schilf in beiden unteren Ecken, Dalben im Bild, keine leeren Ränder.
 - Beim Scrollen von 0.2 auf 0.6 bewegt sich das Schilf spürbar nach links, das Ufer kaum.
 
 - [ ] **Step 6: Commit**
 
 ```bash
-git add index.html tests/html.test.js
+git add index.html css/scenes.css tests/html.test.js
 git commit -m "Landschaft Schlei und Sprite-Grundlagen"
 ```
 
@@ -1612,9 +1645,9 @@ git commit -m "Landschaft Schlei und Sprite-Grundlagen"
 
 **Interfaces:**
 - Consumes: Verläufe und Bühnen-Konvention aus Task 8.
-- Produces: Symbole `#s-damm-sky`, `#s-damm-far`, `#s-damm-water`, `#s-damm-mid`, `#s-damm-fg`, `#s-strasse-sky`, `#s-strasse-far`, `#s-strasse-water`, `#s-strasse-mid`, `#s-strasse-fg`.
+- Produces: Symbole `#s-damm-sky`, `#s-damm-far`, `#s-damm-water`, `#s-damm-mid`, `#s-strasse-sky`, `#s-strasse-far`, `#s-strasse-water`, `#s-strasse-mid`, `#s-haus-ecke-l`, `#s-haus-ecke-r`. Der Damm nutzt als Randstücke `#s-schilf-l`/`#s-schilf-r` aus Task 8.
 
-- [ ] **Step 1: Symbole in `svg.sprite > defs` anhängen (nach `#s-schlei-fg`)**
+- [ ] **Step 1: Symbole in `svg.sprite > defs` anhängen (nach `#s-schilf-r`)**
 
 ```html
       <!-- Szene 2: Der Damm. Straße von Grödersby auf die Halbinsel, Wasser beidseits. Horizont y 640. -->
@@ -1639,49 +1672,44 @@ git commit -m "Landschaft Schlei und Sprite-Grundlagen"
         <path d="M0 720 C120 700 260 712 400 690 C480 678 560 672 640 660 L640 700 L0 720 Z"/>
         <path d="M760 660 C840 672 920 680 1000 694 C1140 716 1280 704 1400 724 L1400 760 L760 700 Z"/>
       </symbol>
-      <symbol id="s-damm-fg" viewBox="0 0 1400 1000">
-        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="7">
-          <path d="M30 1000 L70 480"/><path d="M90 1000 L150 430"/><path d="M140 1000 L170 520"/><path d="M200 1000 L260 460"/><path d="M250 1000 L290 540"/><path d="M320 1000 L390 500"/><path d="M370 1000 L400 590"/>
-          <path d="M1380 1000 L1330 470"/><path d="M1300 1000 L1250 440"/><path d="M1240 1000 L1210 530"/><path d="M1160 1000 L1120 480"/><path d="M1100 1000 L1080 560"/><path d="M1030 1000 L1000 520"/>
-        </g>
-        <ellipse cx="150" cy="432" rx="8" ry="30" transform="rotate(10 150 432)"/><ellipse cx="260" cy="462" rx="7" ry="28" transform="rotate(12 260 462)"/><ellipse cx="390" cy="502" rx="7" ry="26" transform="rotate(14 390 502)"/>
-        <ellipse cx="1250" cy="442" rx="8" ry="30" transform="rotate(-8 1250 442)"/><ellipse cx="1120" cy="482" rx="7" ry="28" transform="rotate(-10 1120 482)"/><ellipse cx="1000" cy="522" rx="7" ry="26" transform="rotate(-12 1000 522)"/>
-      </symbol>
 
-      <!-- Szene 3: Die Lange Straße. Häuser beidseits, Kirchturm am Ende, eine Laterne. Horizont y 700. -->
+      <!-- Szene 3: Die Lange Straße. Häuserzeile mit Kirchturm am Ende (im Handy-Band), Laterne rechts der Mitte, Hausecken als Randstücke. Horizont y 700. -->
       <symbol id="s-strasse-sky" viewBox="0 0 1400 1000">
         <rect x="0" y="0" width="1400" height="700" fill="url(#g-sky)"/>
         <rect x="0" y="700" width="1400" height="300" style="fill: var(--fog-2)"/>
       </symbol>
       <symbol id="s-strasse-far" viewBox="0 0 1400 1000">
-        <path d="M300 700 L300 640 L340 640 L340 610 L380 585 L420 610 L420 640 L470 640 L470 620 L505 596 L540 620 L540 640 L600 640 L600 600 L650 570 L700 600 L700 640 L760 640 L760 616 L795 594 L830 616 L830 640 L890 640 L890 606 L935 578 L980 606 L980 640 L1040 640 L1040 700 Z"/>
-        <path d="M1050 700 L1050 590 L1062 540 L1074 590 L1074 700 Z"/>
+        <path d="M300 700 L300 640 L340 640 L340 610 L380 585 L420 610 L420 640 L470 640 L470 620 L505 596 L540 620 L540 640 L600 640 L600 600 L650 570 L700 600 L700 640 L712 640 L712 580 L724 530 L736 580 L736 640 L760 640 L760 616 L795 594 L830 616 L830 640 L890 640 L890 606 L935 578 L980 606 L980 640 L1040 640 L1040 700 Z"/>
       </symbol>
       <symbol id="s-strasse-water" viewBox="0 0 1400 1000">
         <path style="fill: var(--fog-3)" d="M-200 1000 L560 700 L800 700 L1600 1000 Z"/>
         <path style="fill: var(--ice)" fill-opacity="0.06" d="M-200 1000 L560 700 L580 700 L-100 1000 Z"/>
       </symbol>
       <symbol id="s-strasse-mid" viewBox="0 0 1400 1000">
-        <path d="M0 1000 L0 470 L80 430 L160 470 L160 1000 Z"/>
-        <path d="M160 1000 L160 520 L240 480 L320 520 L320 1000 Z"/>
-        <path d="M1400 1000 L1400 440 L1320 400 L1240 440 L1240 1000 Z"/>
-        <path d="M1240 1000 L1240 500 L1170 465 L1100 500 L1100 1000 Z"/>
+        <!-- zwei Häuser in mittlerer Entfernung, quer sichtbar; Laterne im Handy-Band -->
+        <path d="M210 1000 L210 520 L290 480 L370 520 L370 1000 Z"/>
+        <path d="M1030 1000 L1030 500 L1110 460 L1190 500 L1190 1000 Z"/>
         <g style="fill: var(--night)">
-          <rect x="40" y="520" width="30" height="46"/><rect x="100" y="520" width="30" height="46"/><rect x="200" y="560" width="26" height="40"/><rect x="260" y="560" width="26" height="40"/>
-          <rect x="1280" y="490" width="32" height="48"/><rect x="1340" y="490" width="32" height="48"/><rect x="1130" y="545" width="26" height="40"/><rect x="1190" y="545" width="26" height="40"/>
+          <rect x="245" y="560" width="26" height="40"/><rect x="305" y="560" width="26" height="40"/>
+          <rect x="1065" y="545" width="26" height="40"/><rect x="1125" y="545" width="26" height="40"/>
         </g>
         <g fill="none" stroke="#9FB4C7" stroke-opacity="0.25" stroke-width="4" stroke-linecap="round">
-          <path d="M0 470 L80 430 L160 470"/><path d="M160 520 L240 480 L320 520"/><path d="M1400 440 L1320 400 L1240 440"/><path d="M1240 500 L1170 465 L1100 500"/>
+          <path d="M210 520 L290 480 L370 520"/><path d="M1030 500 L1110 460 L1190 500"/>
         </g>
         <!-- Laterne: Schein, Mast, Kopf, Licht -->
-        <circle cx="979" cy="629" r="120" fill="url(#g-amber-glow)"/>
-        <rect x="975" y="640" width="8" height="360" style="fill: var(--night)"/>
-        <rect x="962" y="612" width="34" height="34" rx="4" style="fill: var(--night)"/>
-        <rect x="968" y="618" width="22" height="22" rx="2" style="fill: var(--amber)"/>
+        <circle cx="900" cy="629" r="120" fill="url(#g-amber-glow)"/>
+        <rect x="896" y="640" width="8" height="360" style="fill: var(--night)"/>
+        <rect x="883" y="612" width="34" height="34" rx="4" style="fill: var(--night)"/>
+        <rect x="889" y="618" width="22" height="22" rx="2" style="fill: var(--amber)"/>
       </symbol>
-      <symbol id="s-strasse-fg" viewBox="0 0 1400 1000">
-        <path d="M0 1000 L0 300 L60 280 L260 420 L260 1000 Z"/>
-        <rect x="120" y="520" width="50" height="80" style="fill: var(--night-2)"/>
+      <!-- Randstücke: Hausecken links und rechts (viewBox 300×600) -->
+      <symbol id="s-haus-ecke-l" viewBox="0 0 300 600">
+        <path d="M0 600 L0 40 L60 20 L300 190 L300 600 Z"/>
+        <rect x="140" y="300" width="60" height="90" style="fill: var(--night-2)"/>
+      </symbol>
+      <symbol id="s-haus-ecke-r" viewBox="0 0 300 600">
+        <path d="M300 600 L300 60 L240 40 L0 210 L0 600 Z"/>
+        <rect x="100" y="320" width="60" height="90" style="fill: var(--night-2)"/>
       </symbol>
 ```
 
@@ -1697,7 +1725,10 @@ git commit -m "Landschaft Schlei und Sprite-Grundlagen"
         <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-water"/></svg></div>
         <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-mid"/></svg></div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-fg"/></svg></div>
+        <div class="layer layer--fg">
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
 ```
@@ -1712,7 +1743,10 @@ git commit -m "Landschaft Schlei und Sprite-Grundlagen"
         <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-water"/></svg></div>
         <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-mid"/></svg></div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-fg"/></svg></div>
+        <div class="layer layer--fg">
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-haus-ecke-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-haus-ecke-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
 ```
@@ -1724,10 +1758,10 @@ Expected: der Ebenen-Test schlägt nur noch für `faehrberg`, `tuer`, `drueben`,
 
 - [ ] **Step 4: Im Browser prüfen**
 
-`barniz.jump('damm', 0.3)` und `barniz.jump('lange-strasse', 0.3)` bei 1440 px und 390 px, Screenshots:
-- Damm: hellere Straße läuft aus dem Vordergrund auf die Halbinsel in der Mitte zu, Wasser links und rechts, Häuser und Kirchturm winzig am Ende, drei kühle Lichter, Schilf beidseits groß im Vordergrund. Beim Scrollen 0.2 → 0.7 zieht das Schilf deutlich nach links (12 vw).
-- Lange Straße: Häusergiebel links und rechts mit dunklen Fenstern, Schnee auf den Firsten als helle Linien, Häuserzeile mit Kirchturm am Ende, die Laterne rechts mit warmem Schein, links die dunkle Hausecke im Vordergrund. Der Laternenschein ist der einzige warme Fleck.
-- Hochkant: Laterne und Straßenende sichtbar, Hausecke links noch im Bild.
+`barniz.jump('damm', 0.3)` und `barniz.jump('lange-strasse', 0.3)` quer und hochkant (`tools/mobile.html`), Screenshots:
+- Damm: hellere Straße läuft aus dem Vordergrund auf die Halbinsel in der Mitte zu, Wasser links und rechts, Häuser und Kirchturm winzig am Ende, drei kühle Lichter, Schilf in beiden unteren Ecken groß im Vordergrund. Beim Scrollen 0.2 → 0.7 zieht das Schilf deutlich nach links (12 vw).
+- Lange Straße: Häuserzeile mit Kirchturm am Ende, hellere Schneestraße, zwei Häusergiebel mit dunklen Fenstern und Schnee auf den Firsten (quer links und rechts der Straße sichtbar), die Laterne rechts der Mitte mit warmem Schein, dunkle Hausecken in beiden unteren Ecken. Der Laternenschein ist der einzige warme Fleck.
+- Hochkant: Kirchturm, Straßenende und Laterne sichtbar, Hausecken in beiden unteren Ecken.
 
 - [ ] **Step 5: Commit**
 
@@ -1745,9 +1779,9 @@ git commit -m "Landschaften Damm und Lange Straße"
 
 **Interfaces:**
 - Consumes: Verläufe `#g-amber-glow`, `#g-schwelle`, Filter `#f-blur` (Task 8).
-- Produces: Symbole `#s-faehrberg-sky`, `#s-faehrberg-far`, `#s-faehrberg-water`, `#s-faehrberg-haus`, `#s-faehrberg-fg`, `#s-tuer-wand`; CSS-Klassen `.fenster`, `.schwelle`, `.layer--wand`. Elemente, die per CSS auf `--p` reagieren, stehen **direkt** in der Bühne (nicht in einem Symbol), weil CSS-Selektoren nicht in den Schattenbaum eines `<use>` greifen.
+- Produces: Symbole `#s-faehrberg-sky`, `#s-faehrberg-far`, `#s-faehrberg-water`, `#s-faehrberg-haus`, `#s-mauer-l`, `#s-tuer-wand`; CSS-Klassen `.fenster`, `.schwelle`, `.layer--wand`. Das Fährhaus liegt bei x 520–960, damit es auch hochkant im Bild ist. Elemente, die per CSS auf `--p` reagieren, stehen **direkt** in der Bühne (nicht in einem Symbol), weil CSS-Selektoren nicht in den Schattenbaum eines `<use>` greifen.
 
-- [ ] **Step 1: Symbole anhängen (nach `#s-strasse-fg`)**
+- [ ] **Step 1: Symbole anhängen (nach `#s-haus-ecke-r`)**
 
 ```html
       <!-- Szene 4: Der Fährberg. Straße fällt nach links zum Wasser ab, rechts das Fährhaus. Horizont y 600. -->
@@ -1766,20 +1800,20 @@ git commit -m "Landschaften Damm und Lange Straße"
         <path style="fill: var(--ice)" fill-opacity="0.07" d="M-200 860 L1600 700 L1600 712 L-200 872 Z"/>
       </symbol>
       <symbol id="s-faehrberg-haus" viewBox="0 0 1400 1000">
-        <!-- Fährhaus: zwei Geschosse, Satteldach, Giebel zur Straße; alle Fenster dunkel -->
-        <path d="M700 760 L700 520 L920 380 L1140 520 L1140 760 Z"/>
-        <rect x="1040" y="420" width="30" height="80"/>
+        <!-- Fährhaus: zwei Geschosse, Satteldach, Giebel zur Straße; alle Fenster dunkel. Liegt im Handy-Band x 520–960. -->
+        <path d="M520 760 L520 520 L740 380 L960 520 L960 760 Z"/>
+        <rect x="860" y="420" width="30" height="80"/>
         <g style="fill: var(--night)">
-          <rect x="740" y="560" width="42" height="60"/><rect x="820" y="560" width="42" height="60"/><rect x="980" y="560" width="42" height="60"/><rect x="1060" y="560" width="42" height="60"/>
-          <rect x="740" y="660" width="42" height="60"/><rect x="820" y="660" width="42" height="60"/><rect x="980" y="660" width="42" height="60"/><rect x="1060" y="660" width="42" height="60"/>
-          <rect x="890" y="640" width="60" height="120"/>
+          <rect x="560" y="560" width="42" height="60"/><rect x="640" y="560" width="42" height="60"/><rect x="800" y="560" width="42" height="60"/><rect x="880" y="560" width="42" height="60"/>
+          <rect x="560" y="660" width="42" height="60"/><rect x="640" y="660" width="42" height="60"/><rect x="800" y="660" width="42" height="60"/><rect x="880" y="660" width="42" height="60"/>
+          <rect x="710" y="640" width="60" height="120"/>
         </g>
-        <path fill="none" stroke="#9FB4C7" stroke-opacity="0.22" stroke-width="4" stroke-linecap="round" d="M700 520 L920 380 L1140 520"/>
+        <path fill="none" stroke="#9FB4C7" stroke-opacity="0.22" stroke-width="4" stroke-linecap="round" d="M520 520 L740 380 L960 520"/>
       </symbol>
-      <symbol id="s-faehrberg-fg" viewBox="0 0 1400 1000">
-        <!-- niedrige Mauer links im Vordergrund -->
-        <path d="M0 1000 L0 820 L180 800 L180 1000 Z"/>
-        <path fill="none" stroke="#9FB4C7" stroke-opacity="0.2" stroke-width="4" stroke-linecap="round" d="M0 820 L180 800"/>
+      <!-- Randstück: niedrige Mauer links (viewBox 300×600) -->
+      <symbol id="s-mauer-l" viewBox="0 0 300 600">
+        <path d="M0 600 L0 420 L300 440 L300 600 Z"/>
+        <path fill="none" stroke="#9FB4C7" stroke-opacity="0.2" stroke-width="5" stroke-linecap="round" d="M0 420 L300 440"/>
       </symbol>
 
       <!-- Szene 5: Die Tür. Nahaufnahme: Wand, Rahmen, Türblatt mit vier Füllungen, Griff. -->
@@ -1791,7 +1825,7 @@ git commit -m "Landschaften Damm und Lange Straße"
           <rect x="470" y="210" width="200" height="300"/><rect x="730" y="210" width="200" height="300"/>
           <rect x="470" y="560" width="200" height="360"/><rect x="730" y="560" width="200" height="360"/>
         </g>
-        <rect x="930" y="600" width="18" height="70" rx="6" style="fill: var(--fog-3)"/>
+        <rect x="880" y="600" width="18" height="70" rx="6" style="fill: var(--fog-3)"/>
       </symbol>
 ```
 
@@ -1808,12 +1842,14 @@ git commit -m "Landschaften Damm und Lange Straße"
         <div class="layer layer--mid">
           <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-haus"/></svg>
           <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice" class="fenster">
-            <circle cx="1001" cy="590" r="90" fill="url(#g-amber-glow)"/>
-            <rect x="980" y="560" width="42" height="60" style="fill: var(--amber)"/>
+            <circle cx="821" cy="590" r="90" fill="url(#g-amber-glow)"/>
+            <rect x="800" y="560" width="42" height="60" style="fill: var(--amber)"/>
           </svg>
         </div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-fg"/></svg></div>
+        <div class="layer layer--fg">
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-mauer-l"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
 ```
@@ -1857,9 +1893,9 @@ Expected: der Ebenen-Test schlägt nur noch für `drueben` und `kaenguru` fehl.
 
 - [ ] **Step 5: Im Browser prüfen**
 
-- `barniz.jump('faehrberg', 0.3)`: Wasser links mit fernem Schwansener Ufer, die Straße fällt von rechts nach links ab, rechts das Fährhaus mit acht dunklen Fenstern und Tür, Schnee auf dem First, Mauer links unten. Kein warmes Licht.
-- `barniz.jump('faehrberg', 0.585)`: das Fenster oben rechts leuchtet bernsteinfarben mit weichem Schein. `barniz.jump('faehrberg', 0.60)` und `0.57`: Helligkeit sichtbar anders (Flackern). `barniz.jump('faehrberg', 0.7)`: wieder dunkel.
-- `barniz.jump('tuer', 0.2)`: Tür füllt die Mitte, vier Füllungen, Griff rechts, unten ein schwacher warmer Streifen. `barniz.jump('tuer', 0.8)`: Streifen deutlich heller. Hochkant: Tür ist etwa halb so breit wie der Bildschirm, Griff sichtbar.
+- `barniz.jump('faehrberg', 0.3)`: Wasser links mit fernem Schwansener Ufer, die Straße fällt von rechts nach links ab, das Fährhaus rechts der Mitte mit acht dunklen Fenstern und Tür, Schnee auf dem First, Mauer links unten. Kein warmes Licht. Hochkant (`tools/mobile.html`): Fährhaus vollständig im Bild.
+- `barniz.jump('faehrberg', 0.585)`: das Fenster oben rechts im Haus leuchtet bernsteinfarben mit weichem Schein. `barniz.jump('faehrberg', 0.60)` und `0.57`: Helligkeit sichtbar anders (Flackern). `barniz.jump('faehrberg', 0.7)`: wieder dunkel.
+- `barniz.jump('tuer', 0.2)`: Tür füllt die Mitte, vier Füllungen, Griff rechts, unten ein schwacher warmer Streifen. `barniz.jump('tuer', 0.8)`: Streifen deutlich heller. Hochkant: Tür füllt fast die ganze Breite, Griff sichtbar.
 
 - [ ] **Step 6: Commit**
 
@@ -1877,7 +1913,7 @@ git commit -m "Landschaften Fährberg mit flackerndem Fenster und Tür mit Licht
 
 **Interfaces:**
 - Consumes: `createTypewriter` (Task 6); `onFrame` des Scroll-Motors (Task 7).
-- Produces: Symbole `#s-drueben-sky`, `#s-drueben-far`, `#s-drueben-water`, `#s-drueben-mid`, `#s-drueben-fg`; Klassen `.layer--nebel`, `.kangaroo`, `.kangaroo__body`, `.kangaroo__eye`. Die Känguru-Silhouette steht direkt in der Bühne (kein Symbol), damit Körper und Augen getrennt per CSS auf `--p` reagieren.
+- Produces: Symbole `#s-drueben-sky`, `#s-drueben-far`, `#s-drueben-water`, `#s-drueben-mid`, `#s-drueben-steg`, `#s-poller-l`; Klassen `.layer--nebel`, `.kangaroo`, `.kangaroo__body`, `.kangaroo__eye`. Die Fähre liegt bei x 640–940 (Handy-Band); Randstücke: Poller links, Schilf rechts (`#s-schilf-r` aus Task 8). Die Känguru-Silhouette steht direkt in der Bühne (kein Symbol), damit Körper und Augen getrennt per CSS auf `--p` reagieren.
 
 - [ ] **Step 1: Symbole anhängen (nach `#s-tuer-wand`)**
 
@@ -1895,20 +1931,23 @@ git commit -m "Landschaften Fährberg mit flackerndem Fenster und Tür mit Licht
         <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="380" y="560" width="80" height="2"/><rect x="1160" y="556" width="90" height="2"/><rect x="200" y="640" width="120" height="2"/><rect x="1000" y="700" width="70" height="2"/><rect x="150" y="820" width="90" height="2"/><rect x="1180" y="860" width="140" height="2"/></g>
       </symbol>
       <symbol id="s-drueben-mid" viewBox="0 0 1400 1000">
-        <!-- Fähre: flacher Rumpf, Steuerhaus, Mast; zwei Dalben -->
-        <path d="M870 548 L884 566 L1156 566 L1170 548 Z"/>
-        <rect x="870" y="540" width="300" height="8"/>
-        <rect x="980" y="500" width="76" height="48" rx="2"/>
-        <rect x="1000" y="482" width="10" height="18"/>
-        <rect x="820" y="520" width="12" height="70" rx="3"/><rect x="1190" y="516" width="12" height="76" rx="3"/>
+        <!-- Fähre, still am Anleger (Handy-Band x 640–940): flacher Rumpf, Steuerhaus, Mast; zwei Dalben -->
+        <path d="M640 548 L654 566 L926 566 L940 548 Z"/>
+        <rect x="640" y="540" width="300" height="8"/>
+        <rect x="750" y="500" width="76" height="48" rx="2"/>
+        <rect x="770" y="482" width="10" height="18"/>
+        <rect x="590" y="520" width="12" height="70" rx="3"/><rect x="960" y="516" width="12" height="76" rx="3"/>
       </symbol>
-      <symbol id="s-drueben-fg" viewBox="0 0 1400 1000">
-        <!-- Steg mit Planken, links ein Poller -->
+      <symbol id="s-drueben-steg" viewBox="0 0 1400 1000">
+        <!-- Steg mit Planken, läuft aufs Wasser zu -->
         <path d="M260 1000 L620 560 L780 560 L1140 1000 Z"/>
         <g fill="none" stroke="#9FB4C7" stroke-opacity="0.10" stroke-width="3">
           <path d="M290 964 L1110 964"/><path d="M340 900 L1060 900"/><path d="M385 846 L1015 846"/><path d="M425 796 L975 796"/><path d="M462 750 L938 750"/><path d="M495 710 L905 710"/><path d="M525 672 L875 672"/><path d="M552 640 L848 640"/><path d="M576 610 L824 610"/><path d="M598 586 L802 586"/>
         </g>
-        <path d="M120 1000 L120 870 C120 850 190 850 190 870 L190 1000 Z"/>
+      </symbol>
+      <!-- Randstück: Poller links (viewBox 300×600) -->
+      <symbol id="s-poller-l" viewBox="0 0 300 600">
+        <path d="M60 600 L60 400 C60 370 150 370 150 400 L150 600 Z"/>
       </symbol>
 ```
 
@@ -1924,7 +1963,11 @@ git commit -m "Landschaften Fährberg mit flackerndem Fenster und Tür mit Licht
         <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-water"/></svg></div>
         <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-mid"/></svg></div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-fg"/></svg></div>
+        <div class="layer layer--fg">
+          <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-steg"/></svg>
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-poller-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
 ```
@@ -2024,7 +2067,7 @@ Expected: alle Tests PASS (der Ebenen-Test findet jetzt in jeder Szene Ebenen).
 
 - [ ] **Step 6: Im Browser prüfen**
 
-- `barniz.jump('drueben', 0.3)`: viel Himmel, gegenüber das flache Schwansener Ufer mit drei Baumspitzen, der Steg läuft aus dem Vordergrund ins Wasser, rechts die Fähre mit Steuerhaus zwischen zwei Dalben, links unten der Poller.
+- `barniz.jump('drueben', 0.3)`: viel Himmel, gegenüber das flache Schwansener Ufer mit drei Baumspitzen, der Steg läuft aus dem Vordergrund ins Wasser, am Stegende die Fähre mit Steuerhaus zwischen zwei Dalben, links unten der Poller, rechts unten Schilf. Hochkant (`tools/mobile.html`): Fähre und Stegende im Bild.
 - `barniz.jump('kaenguru', 0.2)`: nur Nebel, keine Augen. `0.36`: zwei warme Augen ohne Körper. `0.6`: Silhouette steht rechts der Mitte, Fußpunkt bei rund 78 % der Höhe, liest sich als Känguru (Ohren, Schnauze, runder Rücken, Schwanz auf dem Boden, langer Fuß nach vorn). Wenn nicht: einzelne Kontrollpunkte des Pfads anpassen (Ohren länger, Rücken runder, Fuß länger), neu laden, bis die Form stimmt.
 - `barniz.jump('kaenguru', 0.86)`, dann 3 s warten: „Gibt es Barniz?“ tippt sich in etwa 2 s, Cursor blinkt während des Tippens und verschwindet danach. Zurückscrollen auf 0.5 und wieder vor: die Frage bleibt vollständig stehen, tippt nicht neu.
 - Hochkant (390 px): Känguru 45 vh hoch, vollständig im Bild, Frage bricht nicht um.
@@ -2297,7 +2340,10 @@ In `index.html` jeweils **vor** `<div class="veil"></div>` einfügen. Szene `sch
 ```html
         <div class="lit">
           <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-mid"/></svg></div>
-          <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-fg"/></svg></div>
+          <div class="layer layer--fg">
+            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
+            <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+          </div>
         </div>
 ```
 
@@ -2306,7 +2352,10 @@ Szene `damm`:
 ```html
         <div class="lit">
           <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-mid"/></svg></div>
-          <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-fg"/></svg></div>
+          <div class="layer layer--fg">
+            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
+            <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+          </div>
         </div>
 ```
 
@@ -2315,7 +2364,10 @@ Szene `lange-strasse`:
 ```html
         <div class="lit">
           <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-mid"/></svg></div>
-          <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-fg"/></svg></div>
+          <div class="layer layer--fg">
+            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-haus-ecke-l"/></svg></div>
+            <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-haus-ecke-r"/></svg></div>
+          </div>
         </div>
 ```
 
@@ -2324,7 +2376,9 @@ Szene `faehrberg`:
 ```html
         <div class="lit">
           <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-haus"/></svg></div>
-          <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-fg"/></svg></div>
+          <div class="layer layer--fg">
+            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-mauer-l"/></svg></div>
+          </div>
         </div>
 ```
 
@@ -2341,7 +2395,11 @@ Szene `drueben`:
 ```html
         <div class="lit">
           <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-mid"/></svg></div>
-          <div class="layer layer--fg"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-fg"/></svg></div>
+          <div class="layer layer--fg">
+            <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-steg"/></svg>
+            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-poller-l"/></svg></div>
+            <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+          </div>
         </div>
 ```
 
