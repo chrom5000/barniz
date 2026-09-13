@@ -20,7 +20,7 @@ Der Name „Barniz“ fällt auf der ganzen Seite genau **einmal**, in der letzt
 
 Die Seite ist eine lange, vertikale Scroll-Strecke aus acht Szenen plus Fußzeile. Jede Szene ist ein Bild, das beim Scrollen lebt, mit ein bis vier Zeilen Text. Wiederkehrendes Motiv: **„Was wäre, wenn …“**. Sprache: Deutsch, knapp, keine Anrede.
 
-Textzeilen erscheinen gebunden an den Szenenfortschritt `p` (0 → 1). Jede Zeile hat einen Einblendpunkt; ab `p = 0.82` lösen sich alle Zeilen einer Szene wieder auf (Ausnahme: Szene 7, dort bleibt die Frage stehen). Einblenden: 0.08 Fortschritt lang, von `opacity 0; filter: blur(8px); translateY(0.4em)` nach `opacity 1; blur 0; translateY 0`.
+Textzeilen erscheinen gebunden an den Szenenfortschritt `p` (0 → 1). Jede Zeile hat einen Einblendpunkt; von `p = 0.82` bis `0.90` lösen sich alle Zeilen einer Szene wieder auf (Ausnahme: Szene 7, dort bleibt alles stehen). Einblenden: 0.08 Fortschritt lang, von `opacity 0; filter: blur(8px); translateY(0.4em)` nach `opacity 1; blur 0; translateY 0`.
 
 | # | Kennung | Höhe | Bild | Textzeilen (Einblendpunkt `p`) |
 |---|---|---|---|---|
@@ -59,6 +59,8 @@ Warm bedeutet immer „Möglichkeit“. `--amber` kommt sonst nirgends vor.
 ### Typografie
 
 Beide Schriften **selbst gehostet** in `assets/fonts/` als woff2, Latin-Subset (kein Laden von Google-Servern, DSGVO).
+
+Dateien: `assets/fonts/fraunces-300.woff2`, `assets/fonts/fraunces-300-italic.woff2`, `assets/fonts/jetbrains-mono-400.woff2`, dazu die OFL-Lizenztexte.
 
 - **Fraunces** (SIL OFL), zwei statische Schnitte: Light 300 und Light Italic 300. Für alle Textzeilen der Szenen und die letzte Frage. Größe `clamp(1.6rem, 4.5vw + 0.5rem, 3.4rem)`, Zeilenhöhe 1.25, maximale Zeilenbreite 18em, mittig gesetzt.
 - **JetBrains Mono** (SIL OFL), Regular 400. Für Koordinaten, Szenenkennung, Ton-Schalter, Fußzeile, Impressum. Größe 0.7rem, Versalien, `letter-spacing: 0.18em`.
@@ -155,6 +157,7 @@ js/typewriter.js      letzte Frage
 js/grain.js           Korn-Versatz
 assets/fonts/         woff2-Dateien und LICENSE-Dateien der Schriften
 assets/kangaroo.svg
+assets/og.png
 tests/*.test.js       node:test für progress, coords, scenes, audio-levels, typewriter-timing
 .nojekyll
 README.md
@@ -222,7 +225,7 @@ Markup je Szene:
 - Die letzte Frage wird zusätzlich in einem visuell verborgenen `aria-live="polite"`-Element einmal vollständig gesetzt, sobald der Tipp-Effekt startet.
 - Ton-Schalter und Impressum-Link sind per Tastatur erreichbar; Fokus sichtbar.
 - Kontrast Text/Grund mindestens 7:1 (`--snow` auf `--night`), Koordinaten mindestens 4.5:1.
-- `lang="de"`, sinnvoller `<title>` („Barniz?“), `meta description` vage („Ein Winter an der Schlei. Und eine Frage.“). Keine Open-Graph-Bilder, die etwas verraten; ein OG-Bild in `--night` mit einem einzelnen `?` in Fraunces (SVG → PNG 1200×630) reicht.
+- `lang="de"`, sinnvoller `<title>` („Barniz?“), `meta description` vage („Ein Winter an der Schlei. Und eine Frage.“). Keine Open-Graph-Bilder, die etwas verraten; ein OG-Bild `assets/og.png` (1200×630) in `--night` mit einem einzelnen `?` in Fraunces reicht; es wird einmalig erzeugt und eingecheckt.
 
 ### Performance
 
