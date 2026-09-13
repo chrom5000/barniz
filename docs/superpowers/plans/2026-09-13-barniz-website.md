@@ -2143,6 +2143,7 @@ export function createSnow(canvas) {
   let gust = 0;
   let last = performance.now();
   let running = true;
+  let rafId = 0;
 
   function resize() {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -2198,19 +2199,22 @@ export function createSnow(canvas) {
       keep.push(f);
     }
     flakes = keep;
-    requestAnimationFrame(frame);
+    rafId = requestAnimationFrame(frame);
   }
 
+  // Beim Verstecken den wartenden Frame stornieren, sonst liefe nach dem
+  // Sichtbarwerden eine zweite Kette parallel.
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
+    cancelAnimationFrame(rafId);
     if (running) {
       last = performance.now();
-      requestAnimationFrame(frame);
+      rafId = requestAnimationFrame(frame);
     }
   });
   addEventListener('resize', resize);
   resize();
-  requestAnimationFrame(frame);
+  rafId = requestAnimationFrame(frame);
 
   return {
     /** Zielwerte der aktiven Szene; velocity in px/s, positiv = nach unten gescrollt. */
