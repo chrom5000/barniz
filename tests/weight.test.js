@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readdirSync, statSync } from 'node:fs';
+import { readdirSync, statSync, readFileSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const size = p => statSync(new URL(p, root)).size;
@@ -19,4 +19,6 @@ test('Seite inklusive Schriften unter 300 kB', () => {
 
 test('Impressum-Platzhalter existiert und verlinkt zurück', () => {
   assert.ok(size('impressum.html') > 200);
+  const html = readFileSync(new URL('impressum.html', root), 'utf8');
+  assert.ok(html.includes('href="./"'), 'Rücklink fehlt');
 });
