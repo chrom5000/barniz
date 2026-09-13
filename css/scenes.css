@@ -159,11 +159,16 @@
 .frage__typed.is-done::after { display: none; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* ---- Szene 4: ein Fenster flackert zwischen p 0.55 und 0.62 ---- */
+/* ---- Szene 4: ein Fenster flackert zwischen p 0.55 und 0.62 ----
+   Erst opacity 0, dann die Formel: kennt ein Browser max()/sin() nicht,
+   bleibt das Fenster dunkel statt dauerhaft hell. max() statt abs()
+   (abs() gibt es erst seit Chrome/Firefox 133). Drei Flackerperioden
+   über das Band, Gipfel bei p 0.585. */
 .fenster {
+  opacity: 0;
   opacity: calc(
-    clamp(0, 1 - abs(var(--p, 0) - 0.585) / 0.035, 1)
-    * (0.55 + 0.45 * sin(var(--p, 0) * 900))
+    clamp(0, 1 - max(var(--p, 0) - 0.585, 0.585 - var(--p, 0)) / 0.035, 1)
+    * (0.55 + 0.45 * sin(var(--p, 0) * 270 + 0.7))
   );
 }
 
@@ -234,7 +239,7 @@ html.has-lantern .lit { opacity: 0.55; }
   .frage__typed::after { display: none; }
   .kangaroo__body { opacity: clamp(0, (var(--p, 0) - 0.30) / 0.05, 1); }
   .kangaroo__eye { filter: none; }
-  .fenster { opacity: clamp(0, 1 - abs(var(--p, 0) - 0.585) / 0.035, 1); }
+  .fenster { opacity: clamp(0, 1 - max(var(--p, 0) - 0.585, 0.585 - var(--p, 0)) / 0.035, 1); }
 }
 html.reduced .snow,
 html.reduced .lantern { display: none; }
