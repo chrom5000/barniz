@@ -196,3 +196,15 @@
   opacity: clamp(0, (var(--p, 0) - 0.30) / 0.06, 1);
   filter: drop-shadow(0 0 6px var(--amber));
 }
+
+/* ---- Känguru-Szene: Text und Silhouette teilen sich den Platz ---- */
+.scene[data-scene="kaenguru"] .lines { padding-right: calc(36vw + var(--safe-right)); }
+.scene[data-scene="kaenguru"] .kangaroo { left: 76%; }
+@media (orientation: portrait) {
+  .scene[data-scene="kaenguru"] .lines {
+    justify-content: flex-start;
+    padding-top: calc(12vh + var(--safe-top));
+    padding-right: calc(var(--gutter) + var(--safe-right));
+  }
+  .scene[data-scene="kaenguru"] .kangaroo { left: 55%; bottom: 14%; }
+}

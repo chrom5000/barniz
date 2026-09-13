@@ -33,7 +33,7 @@ export const SCENES = [
     snow: { density: 1.0, wind: -35 },
     audio: { wind: 0.40, water: 0.35, bass: 0.05 },
     coords: { lat: [54, 37, 38], lon: [9, 56, 10] } },
-  { id: 'kaenguru', label: '?', height: 200,
+  { id: 'kaenguru', label: '', height: 200,
     snow: { density: 0.5, wind: 0, rampOut: 0.45 },
     audio: { wind: 0.30, water: 0.00, bass: 0 },
     coords: null },
