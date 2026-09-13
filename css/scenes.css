@@ -50,6 +50,22 @@
 .layer--fg    { --fx: -12; --fy: 2; --fs: 0.15; color: var(--night); }
 .scene[data-state="active"] .layer { will-change: transform; }
 
+/* ---- Randstücke: Vordergrund, das auf jedem Seitenverhältnis an der Bildkante sitzt ---- */
+.edge {
+  position: absolute;
+  bottom: 0;
+  height: 55vh;
+  width: 30vw;
+}
+.edge--left  { left: 20vw; }
+.edge--right { right: 20vw; }
+.edge > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
 /* ---- Nebel: zwei driftende Verläufe zwischen den Ebenen ---- */
 
 .fog {
