@@ -73,6 +73,68 @@
         </g>
         <ellipse cx="206" cy="82" rx="8" ry="32" transform="rotate(-6 206 82)"/><ellipse cx="110" cy="182" rx="7" ry="28" transform="rotate(-10 110 182)"/>
       </symbol>
+
+      <!-- Szene 2: Der Damm. Straße von Grödersby auf die Halbinsel, Wasser beidseits. Horizont y 640. -->
+      <symbol id="s-damm-sky" viewBox="0 0 1400 1000">
+        <rect x="0" y="0" width="1400" height="640" fill="url(#g-sky)"/>
+        <rect x="0" y="640" width="1400" height="360" fill="url(#g-water)"/>
+      </symbol>
+      <symbol id="s-damm-far" viewBox="0 0 1400 1000">
+        <!-- Halbinsel: niedrige Häuser, in der Mitte der Kirchturm -->
+        <path d="M430 640 L430 626 L470 626 L470 606 L500 588 L530 606 L530 626 L575 626 L575 600 L605 580 L635 600 L635 626 L680 626 L680 612 L705 596 L730 612 L730 626 L748 626 L748 560 L760 520 L772 560 L772 626 L800 626 L800 604 L830 586 L860 604 L860 626 L905 626 L905 610 L930 594 L955 610 L955 626 L990 626 L990 640 Z"/>
+        <path d="M0 640 C150 630 300 636 430 632 L430 660 L0 660 Z"/>
+        <path d="M990 632 C1120 628 1280 634 1400 630 L1400 660 L990 660 Z"/>
+        <g style="fill: var(--ice)" fill-opacity="0.6"><circle cx="512" cy="616" r="1.8"/><circle cx="618" cy="612" r="2"/><circle cx="842" cy="614" r="1.8"/></g>
+      </symbol>
+      <symbol id="s-damm-water" viewBox="0 0 1400 1000">
+        <path style="fill: var(--fog-3)" d="M-200 1000 L660 638 L740 638 L1600 1000 Z"/>
+        <path style="fill: var(--ice)" fill-opacity="0.08" d="M-200 1000 L660 638 L672 638 L-120 1000 Z"/>
+        <path style="fill: var(--ice)" fill-opacity="0.08" d="M728 638 L740 638 L1600 1000 L1520 1000 Z"/>
+        <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="120" y="700" width="90" height="2"/><rect x="1150" y="690" width="70" height="2"/><rect x="60" y="780" width="60" height="2"/><rect x="1260" y="760" width="110" height="2"/></g>
+      </symbol>
+      <symbol id="s-damm-mid" viewBox="0 0 1400 1000">
+        <path d="M0 720 C120 700 260 712 400 690 C480 678 560 672 640 660 L640 700 L0 720 Z"/>
+        <path d="M760 660 C840 672 920 680 1000 694 C1140 716 1280 704 1400 724 L1400 760 L760 700 Z"/>
+      </symbol>
+
+      <!-- Szene 3: Die Lange Straße. Häuserzeile mit Kirchturm am Ende (im Handy-Band), Laterne rechts der Mitte, Hausecken als Randstücke. Horizont y 700. -->
+      <symbol id="s-strasse-sky" viewBox="0 0 1400 1000">
+        <rect x="0" y="0" width="1400" height="700" fill="url(#g-sky)"/>
+        <rect x="0" y="700" width="1400" height="300" style="fill: var(--fog-2)"/>
+      </symbol>
+      <symbol id="s-strasse-far" viewBox="0 0 1400 1000">
+        <path d="M300 700 L300 640 L340 640 L340 610 L380 585 L420 610 L420 640 L470 640 L470 620 L505 596 L540 620 L540 640 L600 640 L600 600 L650 570 L700 600 L700 640 L712 640 L712 580 L724 530 L736 580 L736 640 L760 640 L760 616 L795 594 L830 616 L830 640 L890 640 L890 606 L935 578 L980 606 L980 640 L1040 640 L1040 700 Z"/>
+      </symbol>
+      <symbol id="s-strasse-water" viewBox="0 0 1400 1000">
+        <path style="fill: var(--fog-3)" d="M-200 1000 L560 700 L800 700 L1600 1000 Z"/>
+        <path style="fill: var(--ice)" fill-opacity="0.06" d="M-200 1000 L560 700 L580 700 L-100 1000 Z"/>
+      </symbol>
+      <symbol id="s-strasse-mid" viewBox="0 0 1400 1000">
+        <!-- zwei Häuser in mittlerer Entfernung, quer sichtbar; Laterne im Handy-Band -->
+        <path d="M210 1000 L210 520 L290 480 L370 520 L370 1000 Z"/>
+        <path d="M1030 1000 L1030 500 L1110 460 L1190 500 L1190 1000 Z"/>
+        <g style="fill: var(--night)">
+          <rect x="245" y="560" width="26" height="40"/><rect x="305" y="560" width="26" height="40"/>
+          <rect x="1065" y="545" width="26" height="40"/><rect x="1125" y="545" width="26" height="40"/>
+        </g>
+        <g fill="none" stroke="#9FB4C7" stroke-opacity="0.25" stroke-width="4" stroke-linecap="round">
+          <path d="M210 520 L290 480 L370 520"/><path d="M1030 500 L1110 460 L1190 500"/>
+        </g>
+        <!-- Laterne: Schein, Mast, Kopf, Licht -->
+        <circle cx="900" cy="629" r="120" fill="url(#g-amber-glow)"/>
+        <rect x="896" y="640" width="8" height="360" style="fill: var(--night)"/>
+        <rect x="883" y="612" width="34" height="34" rx="4" style="fill: var(--night)"/>
+        <rect x="889" y="618" width="22" height="22" rx="2" style="fill: var(--amber)"/>
+      </symbol>
+      <!-- Randstücke: Hausecken links und rechts (viewBox 300×600) -->
+      <symbol id="s-haus-ecke-l" viewBox="0 0 300 600">
+        <path d="M0 600 L0 40 L60 20 L300 190 L300 600 Z"/>
+        <rect x="140" y="300" width="60" height="90" style="fill: var(--night-2)"/>
+      </symbol>
+      <symbol id="s-haus-ecke-r" viewBox="0 0 300 600">
+        <path d="M300 600 L300 60 L240 40 L0 210 L0 600 Z"/>
+        <rect x="100" y="320" width="60" height="90" style="fill: var(--night-2)"/>
+      </symbol>
     </defs>
   </svg>
 
@@ -110,6 +172,16 @@
 
     <section class="scene" data-scene="damm" style="--h: 250">
       <div class="stage" aria-hidden="true">
+        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-sky"/></svg></div>
+        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-far"/></svg></div>
+        <div class="fog fog--a"></div>
+        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-water"/></svg></div>
+        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-mid"/></svg></div>
+        <div class="fog fog--b"></div>
+        <div class="layer layer--fg">
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
       <div class="lines">
@@ -120,6 +192,16 @@
 
     <section class="scene" data-scene="lange-strasse" style="--h: 250">
       <div class="stage" aria-hidden="true">
+        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-sky"/></svg></div>
+        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-far"/></svg></div>
+        <div class="fog fog--a"></div>
+        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-water"/></svg></div>
+        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-mid"/></svg></div>
+        <div class="fog fog--b"></div>
+        <div class="layer layer--fg">
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-haus-ecke-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-haus-ecke-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
       <div class="lines">
