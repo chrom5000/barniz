@@ -158,3 +158,15 @@
 .frage__typed:empty::after { display: none; }
 .frage__typed.is-done::after { display: none; }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* ---- Szene 4: ein Fenster flackert zwischen p 0.55 und 0.62 ---- */
+.fenster {
+  opacity: calc(
+    clamp(0, 1 - abs(var(--p, 0) - 0.585) / 0.035, 1)
+    * (0.55 + 0.45 * sin(var(--p, 0) * 900))
+  );
+}
+
+/* ---- Szene 5: Nahaufnahme, kaum Parallaxe; Türspalt wird mit p heller ---- */
+.layer--wand { --fx: -2; --fy: 0; --fs: 0.05; }
+.schwelle { opacity: calc(0.25 + var(--p, 0) * 0.45); }
