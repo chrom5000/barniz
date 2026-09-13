@@ -53,7 +53,8 @@ export function createSnow(canvas) {
     gust -= gust * (dt / GUST_TAU);
 
     const n = flakeCount(w, h, target.density);
-    while (flakes.length < n) flakes.push(spawn(true));
+    const burst = n - flakes.length > 8; // Sprung (Reload mitten in der Seite): über die Höhe verteilen
+    while (flakes.length < n) flakes.push(spawn(!burst));
     let excess = flakes.length - n;
 
     const wind = target.wind + gust;
