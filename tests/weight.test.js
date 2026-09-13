@@ -7,7 +7,7 @@ const size = p => statSync(new URL(p, root)).size;
 const dirSize = (dir, filter = () => true) =>
   readdirSync(new URL(dir, root)).filter(filter).reduce((sum, f) => sum + size(`${dir}${f}`), 0);
 
-test('Seite inklusive Schriften unter 300 kB', () => {
+test('Ausgelieferte Seite inklusive Schriften unter 300 kB (ohne og.png und tools/)', () => {
   const total =
     size('index.html') +
     size('assets/favicon.svg') +
