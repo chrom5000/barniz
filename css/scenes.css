@@ -221,3 +221,21 @@
 }
 html.has-lantern .lit { opacity: 0.55; }
 .lit .layer { color: var(--fog-3); }
+
+/* ---- prefers-reduced-motion: keine Parallaxe, kein Nebeltreiben, keine Unschärfe ---- */
+@media (prefers-reduced-motion: reduce) {
+  .layer, .fog { transform: none !important; }
+  .fog::before { animation: none; }
+  .line {
+    --fade-in: clamp(0, (var(--p, 0) - var(--in, 0)) / 0.02, 1);
+    filter: none;
+    transform: none;
+  }
+  .frage__typed::after { display: none; }
+  .kangaroo__body { opacity: clamp(0, (var(--p, 0) - 0.30) / 0.05, 1); }
+  .kangaroo__eye { filter: none; }
+  .fenster { opacity: clamp(0, 1 - abs(var(--p, 0) - 0.585) / 0.035, 1); }
+}
+html.reduced .snow,
+html.reduced .lantern { display: none; }
+html.reduced .frage { opacity: clamp(0, (var(--p, 0) - 0.30) / 0.05, 1); }

@@ -1,5 +1,7 @@
 # Barniz?
 
+Live: <https://chrom5000.github.io/barniz/>
+
 Ein Winter an der Schlei. Und eine Frage. Eine Scroll-Seite ohne Abhängigkeiten und ohne Build.
 
 Lokal ansehen: `python3 -m http.server 8080` im Projektroot, dann <http://localhost:8080/>.

@@ -15,8 +15,6 @@ const coordsEl = document.querySelector('.coords');
 const labelEl = document.querySelector('.scene-label');
 const typedEl = document.querySelector('.frage__typed');
 const liveEl = document.getElementById('frage-live');
-const snow = reduced ? null : createSnow(document.querySelector('.snow'));
-const audio = createAudio(document.querySelector('.hud--sound'));
 
 const FRAGE = 'Gibt es Barniz?';
 const frage = createTypewriter({
@@ -27,6 +25,14 @@ const frage = createTypewriter({
     typedEl.classList.toggle('is-done', done);
   },
 });
+if (reduced) {
+  // Ohne Tipp-Effekt: Frage steht sofort, CSS blendet sie ab p 0.30 ein.
+  typedEl.textContent = FRAGE;
+  typedEl.classList.add('is-done');
+}
+
+const snow = reduced ? null : createSnow(document.querySelector('.snow'));
+const audio = createAudio(document.querySelector('.hud--sound'));
 
 const engine = createScrollEngine({
   sections: document.querySelectorAll('.scene'),
@@ -35,7 +41,7 @@ const engine = createScrollEngine({
     audio.setLevels(audioFor(current, p));
     coordsEl.textContent = coordsFor(current, p);
     labelEl.textContent = sceneById(current)?.label ?? '';
-    if (current === 'kaenguru' && p >= 0.85 && frage.start()) {
+    if (!reduced && current === 'kaenguru' && p >= 0.85 && frage.start()) {
       liveEl.textContent = FRAGE;
     }
   },
