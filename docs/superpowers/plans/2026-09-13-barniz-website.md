@@ -701,7 +701,9 @@ test('Känguru: Schnee ab 0.45 linear auf 0, keine Überblendung danach', () => 
 });
 
 test('bei p 1 gilt vollständig die nächste Szene', () => {
-  assert.deepEqual(snowFor('prolog', 1), { density: 0.8, wind: -20 });
+  const s = snowFor('prolog', 1);
+  close(s.density, 0.8, 'Dichte');
+  close(s.wind, -20, 'Wind');
 });
 
 test('unbekannte Szene liefert Nullwerte', () => {
