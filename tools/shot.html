@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Szenen-Screenshot</title>
+  <style>
+    html, body { margin: 0; background: #070B14; }
+    iframe { display: block; border: 0; }
+  </style>
+</head>
+<body>
+  <iframe id="phone" src="../index.html" title="Seite"></iframe>
+  <script>
+    // Entwicklungs-Hilfsseite für Headless-Screenshots:
+    // shot.html?scene=damm&p=0.3&w=1440&h=900  → springt nach dem Laden zur Szene.
+    const q = new URLSearchParams(location.search);
+    const w = Number(q.get('w') || 1440);
+    const h = Number(q.get('h') || 900);
+    const f = document.getElementById('phone');
+    f.width = w;
+    f.height = h;
+    f.addEventListener('load', () => {
+      const win = f.contentWindow;
+      const go = () => {
+        win.barniz?.jump(q.get('scene') || 'prolog', Number(q.get('p') || 0));
+        win.dispatchEvent(new Event('resize'));
+      };
+      setTimeout(go, 300);
+      setTimeout(go, 900);
+    });
+  </script>
+</body>
+</html>
