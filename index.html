@@ -179,6 +179,38 @@
         </g>
         <rect x="880" y="600" width="18" height="70" rx="6" style="fill: var(--fog-3)"/>
       </symbol>
+
+      <!-- Szene 6: Der Blick nach drüben. Anleger, stille Fähre, gegenüber Schwansen. Horizont y 520. -->
+      <symbol id="s-drueben-sky" viewBox="0 0 1400 1000">
+        <rect x="0" y="0" width="1400" height="520" fill="url(#g-sky)"/>
+        <rect x="0" y="520" width="1400" height="480" fill="url(#g-water)"/>
+      </symbol>
+      <symbol id="s-drueben-far" viewBox="0 0 1400 1000">
+        <path d="M0 526 C100 520 200 528 300 522 L330 508 L350 522 L520 522 L540 500 L556 522 L620 520 C760 514 900 526 1040 518 L1060 502 L1078 518 L1400 520 L1400 560 L0 560 Z"/>
+        <g style="fill: var(--ice)" fill-opacity="0.5"><circle cx="420" cy="519" r="1.6"/><circle cx="1200" cy="517" r="1.4"/></g>
+      </symbol>
+      <symbol id="s-drueben-water" viewBox="0 0 1400 1000">
+        <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="380" y="560" width="80" height="2"/><rect x="1160" y="556" width="90" height="2"/><rect x="200" y="640" width="120" height="2"/><rect x="1000" y="700" width="70" height="2"/><rect x="150" y="820" width="90" height="2"/><rect x="1180" y="860" width="140" height="2"/></g>
+      </symbol>
+      <symbol id="s-drueben-mid" viewBox="0 0 1400 1000">
+        <!-- Fähre, still am Anleger (Handy-Band x 640–940): flacher Rumpf, Steuerhaus, Mast; zwei Dalben -->
+        <path d="M640 548 L654 566 L926 566 L940 548 Z"/>
+        <rect x="640" y="540" width="300" height="8"/>
+        <rect x="750" y="500" width="76" height="48" rx="2"/>
+        <rect x="770" y="482" width="10" height="18"/>
+        <rect x="590" y="520" width="12" height="70" rx="3"/><rect x="960" y="516" width="12" height="76" rx="3"/>
+      </symbol>
+      <symbol id="s-drueben-steg" viewBox="0 0 1400 1000">
+        <!-- Steg mit Planken, läuft aufs Wasser zu -->
+        <path d="M260 1000 L620 560 L780 560 L1140 1000 Z"/>
+        <g fill="none" stroke="#9FB4C7" stroke-opacity="0.10" stroke-width="3">
+          <path d="M290 964 L1110 964"/><path d="M340 900 L1060 900"/><path d="M385 846 L1015 846"/><path d="M425 796 L975 796"/><path d="M462 750 L938 750"/><path d="M495 710 L905 710"/><path d="M525 672 L875 672"/><path d="M552 640 L848 640"/><path d="M576 610 L824 610"/><path d="M598 586 L802 586"/>
+        </g>
+      </symbol>
+      <!-- Randstück: Poller links (viewBox 300×600) -->
+      <symbol id="s-poller-l" viewBox="0 0 300 600">
+        <path d="M60 600 L60 400 C60 370 150 370 150 400 L150 600 Z"/>
+      </symbol>
     </defs>
   </svg>
 
@@ -303,6 +335,17 @@
 
     <section class="scene" data-scene="drueben" style="--h: 250">
       <div class="stage" aria-hidden="true">
+        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-sky"/></svg></div>
+        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-far"/></svg></div>
+        <div class="fog fog--a"></div>
+        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-water"/></svg></div>
+        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-mid"/></svg></div>
+        <div class="fog fog--b"></div>
+        <div class="layer layer--fg">
+          <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-steg"/></svg>
+          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-poller-l"/></svg></div>
+          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
+        </div>
         <div class="veil"></div>
       </div>
       <div class="lines">
@@ -315,6 +358,14 @@
 
     <section class="scene" data-scene="kaenguru" style="--h: 200">
       <div class="stage" aria-hidden="true">
+        <div class="layer layer--sky layer--nebel"></div>
+        <div class="fog fog--a"></div>
+        <div class="fog fog--b"></div>
+        <svg class="kangaroo" viewBox="0 0 400 600" preserveAspectRatio="xMidYMax meet">
+          <path class="kangaroo__body" d="M120 152 C132 124 160 98 190 90 C184 62 176 32 170 10 C190 30 206 60 210 80 C220 76 232 76 242 80 C250 58 258 32 268 12 C274 42 264 68 256 88 C264 112 272 150 276 190 C300 250 328 330 320 410 C336 452 366 520 398 582 C372 568 336 536 306 500 C290 540 272 570 252 582 L78 584 C96 566 140 560 196 566 C172 540 142 508 126 476 C110 442 114 402 136 380 C140 340 146 300 160 270 C148 262 140 248 150 238 C160 218 170 200 178 182 C168 170 142 160 120 152 Z"/>
+          <circle class="kangaroo__eye" cx="196" cy="120" r="7"/>
+          <circle class="kangaroo__eye" cx="228" cy="116" r="7"/>
+        </svg>
         <div class="veil"></div>
       </div>
       <div class="lines">

@@ -170,3 +170,29 @@
 /* ---- Szene 5: Nahaufnahme, kaum Parallaxe; Türspalt wird mit p heller ---- */
 .layer--wand { --fx: -2; --fy: 0; --fs: 0.05; }
 .schwelle { opacity: calc(0.25 + var(--p, 0) * 0.45); }
+
+/* ---- Szene 7: nur Nebel, dann Augen (p 0.30), dann Silhouette (p 0.45–0.60) ---- */
+.layer--nebel {
+  background: linear-gradient(180deg, var(--fog-1) 0%, var(--fog-3) 50%, var(--fog-2) 100%);
+}
+.kangaroo {
+  position: absolute;
+  left: 55%;
+  bottom: 22%;
+  height: 55vh;
+  width: auto;
+  transform: translateX(-50%);
+  overflow: visible;
+}
+@media (orientation: portrait) {
+  .kangaroo { height: 45vh; }
+}
+.kangaroo__body {
+  fill: var(--fog-1);
+  opacity: clamp(0, (var(--p, 0) - 0.45) / 0.15, 1);
+}
+.kangaroo__eye {
+  fill: var(--amber);
+  opacity: clamp(0, (var(--p, 0) - 0.30) / 0.06, 1);
+  filter: drop-shadow(0 0 6px var(--amber));
+}
