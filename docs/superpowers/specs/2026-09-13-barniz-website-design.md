@@ -52,7 +52,7 @@ Die letzte Frage ist der einzige zeitgesteuerte Effekt: Erreicht `p` in Szene 7 
 | `--ice` | `#9FB4C7` | Eisränder, Schneeflocken (mit Blaustich), Text sekundär |
 | `--snow` | `#E6EEF5` | Haupttext |
 | `--amber` | `#F2B84B` | die **einzige** warme Farbe: Laterne, Fenster, Türspalt, Augen |
-| `--mute` | `#5B6673` | Fußzeile, Koordinaten, Ton-Schalter |
+| `--mute` | `#73808E` | Fußzeile, Koordinaten, Ton-Schalter (4,9:1 auf `--night`; `#5B6673` lag bei 3,4:1) |
 
 Warm bedeutet immer „Möglichkeit“. `--amber` kommt sonst nirgends vor.
 

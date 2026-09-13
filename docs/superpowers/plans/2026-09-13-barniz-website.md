@@ -180,7 +180,7 @@ Expected: 4 Tests PASS.
   --ice: #9FB4C7;
   --snow: #E6EEF5;
   --amber: #F2B84B;
-  --mute: #5B6673;
+  --mute: #73808E;
 
   --font-serif: 'Fraunces', Georgia, serif;
   --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
@@ -2849,7 +2849,7 @@ Im Browser:
 - DevTools → Rendering → „Emulate CSS prefers-reduced-motion: reduce“, Seite neu laden: kein Canvas sichtbar (`getComputedStyle(document.querySelector('.snow')).display === 'none'`), keine Laterne, Ebenen bewegen sich beim Scrollen nicht, Texte erscheinen ohne Unschärfe, `barniz.jump('kaenguru', 0.4)`: Känguru und Frage stehen vollständig ohne Tipp-Effekt.
 - Emulation wieder aus. Tastatur: Tab erreicht zuerst „TON AN“ (Fokusring in Eisblau sichtbar), dann „Impressum“. Enter auf Impressum öffnet die Platzhalterseite, „Zurück“ führt zur Startseite.
 - Ohne Ton-Klick: `barniz.jump('kaenguru', 0.9)`, 3 s warten, `document.getElementById('frage-live').textContent === 'Gibt es Barniz?'`.
-- Kontrast: Text `#E6EEF5` auf `#070B14` liegt bei rund 17:1, Koordinaten `#5B6673` auf `#070B14` bei rund 4.6:1 (mit einem Kontrastrechner nachprüfen; sollten die Koordinaten unter 4.5:1 liegen, `--mute` auf `#61707E` anheben).
+- Kontrast: Text `#E6EEF5` auf `#070B14` liegt bei rund 17:1, Koordinaten `#73808E` auf `#070B14` bei 4.9:1 (WCAG-Relativluminanz nachrechnen).
 - Netzwerk-Tab: keine Anfrage an fremde Hosts.
 
 - [ ] **Step 8: Commit**
