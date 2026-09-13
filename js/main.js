@@ -3,7 +3,8 @@ import { coordsFor } from './coords.js';
 import { sceneById } from './scenes.js';
 import { createTypewriter } from './typewriter.js';
 import { createSnow } from './snow.js';
-import { snowFor } from './levels.js';
+import { snowFor, audioFor } from './levels.js';
+import { createAudio } from './audio.js';
 import { createLantern } from './lantern.js';
 import { startGrain } from './grain.js';
 
@@ -15,6 +16,7 @@ const labelEl = document.querySelector('.scene-label');
 const typedEl = document.querySelector('.frage__typed');
 const liveEl = document.getElementById('frage-live');
 const snow = reduced ? null : createSnow(document.querySelector('.snow'));
+const audio = createAudio(document.querySelector('.hud--sound'));
 
 const FRAGE = 'Gibt es Barniz?';
 const frage = createTypewriter({
@@ -30,6 +32,7 @@ const engine = createScrollEngine({
   sections: document.querySelectorAll('.scene'),
   onFrame({ current, p, velocity }) {
     snow?.setTarget(snowFor(current, p), velocity);
+    audio.setLevels(audioFor(current, p));
     coordsEl.textContent = coordsFor(current, p);
     labelEl.textContent = sceneById(current)?.label ?? '';
     if (current === 'kaenguru' && p >= 0.85 && frage.start()) {
