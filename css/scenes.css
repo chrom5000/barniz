@@ -173,7 +173,7 @@
 }
 
 /* ---- Szene 5: Nahaufnahme, kaum Parallaxe; Türspalt wird mit p heller ---- */
-.layer--wand { --fx: -2; --fy: 0; --fs: 0.05; }
+.layer--wand { --fx: -2; --fy: 0; --fs: 0.05; color: var(--fog-1); }
 .schwelle { opacity: calc(0.25 + var(--p, 0) * 0.45); }
 
 /* ---- Szene 7: nur Nebel, dann Augen (p 0.30), dann Silhouette (p 0.45–0.60) ---- */
@@ -226,6 +226,7 @@
 }
 html.has-lantern .lit { opacity: 0.55; }
 .lit .layer { color: var(--fog-3); }
+.lit .layer--wand svg { filter: brightness(1.7); }
 
 /* ---- prefers-reduced-motion: keine Parallaxe, kein Nebeltreiben, keine Unschärfe ---- */
 @media (prefers-reduced-motion: reduce) {
