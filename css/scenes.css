@@ -208,3 +208,16 @@
   }
   .scene[data-scene="kaenguru"] .kangaroo { left: 55%; bottom: 14%; }
 }
+
+/* ---- Laterne: Kopien von Mittel- und Vordergrund, nur im Lichtkreis sichtbar ---- */
+.lit {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-mask-image: radial-gradient(circle 200px at var(--lx) var(--ly), #000 0%, transparent 100%);
+  mask-image: radial-gradient(circle 200px at var(--lx) var(--ly), #000 0%, transparent 100%);
+}
+html.has-lantern .lit { opacity: 0.55; }
+.lit .layer { color: var(--fog-3); }

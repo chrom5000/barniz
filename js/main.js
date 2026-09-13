@@ -4,6 +4,8 @@ import { sceneById } from './scenes.js';
 import { createTypewriter } from './typewriter.js';
 import { createSnow } from './snow.js';
 import { snowFor } from './levels.js';
+import { createLantern } from './lantern.js';
+import { startGrain } from './grain.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.documentElement.classList.toggle('reduced', reduced);
@@ -35,5 +37,10 @@ const engine = createScrollEngine({
     }
   },
 });
+
+if (!reduced) {
+  createLantern();
+  startGrain(document.querySelector('.grain'));
+}
 
 window.barniz = { jump: engine.jump };
