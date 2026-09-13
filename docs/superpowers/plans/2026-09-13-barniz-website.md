@@ -1516,14 +1516,15 @@ Expected: der neue Test FAIL („keine use-Elemente“).
 Den Kommentar `<!-- Verläufe, Filter und Landschafts-Symbole (Task 8–11) -->` ersetzen durch:
 
 ```html
+      <!-- Nebel hellt den Horizont auf; Wasser spiegelt ihn. Silhouetten (fg = night, mid = night-2, far = fog-1) brauchen darunter hellere Flächen. -->
       <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" style="stop-color: var(--night)"/>
         <stop offset="0.55" style="stop-color: var(--night-2)"/>
-        <stop offset="1" style="stop-color: var(--fog-2)"/>
+        <stop offset="1" style="stop-color: var(--fog-3)"/>
       </linearGradient>
       <linearGradient id="g-water" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" style="stop-color: var(--fog-1)"/>
-        <stop offset="1" style="stop-color: var(--night-2)"/>
+        <stop offset="0" style="stop-color: var(--fog-3)"/>
+        <stop offset="1" style="stop-color: var(--fog-2)"/>
       </linearGradient>
       <radialGradient id="g-amber-glow">
         <stop offset="0" style="stop-color: var(--amber); stop-opacity: 0.35"/>
@@ -1629,7 +1630,7 @@ git commit -m "Landschaft Schlei und Sprite-Grundlagen"
         <g style="fill: var(--ice)" fill-opacity="0.6"><circle cx="512" cy="616" r="1.8"/><circle cx="618" cy="612" r="2"/><circle cx="842" cy="614" r="1.8"/></g>
       </symbol>
       <symbol id="s-damm-water" viewBox="0 0 1400 1000">
-        <path style="fill: var(--fog-1)" d="M-200 1000 L660 638 L740 638 L1600 1000 Z"/>
+        <path style="fill: var(--fog-3)" d="M-200 1000 L660 638 L740 638 L1600 1000 Z"/>
         <path style="fill: var(--ice)" fill-opacity="0.08" d="M-200 1000 L660 638 L672 638 L-120 1000 Z"/>
         <path style="fill: var(--ice)" fill-opacity="0.08" d="M728 638 L740 638 L1600 1000 L1520 1000 Z"/>
         <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="120" y="700" width="90" height="2"/><rect x="1150" y="690" width="70" height="2"/><rect x="60" y="780" width="60" height="2"/><rect x="1260" y="760" width="110" height="2"/></g>
@@ -1650,14 +1651,14 @@ git commit -m "Landschaft Schlei und Sprite-Grundlagen"
       <!-- Szene 3: Die Lange Straße. Häuser beidseits, Kirchturm am Ende, eine Laterne. Horizont y 700. -->
       <symbol id="s-strasse-sky" viewBox="0 0 1400 1000">
         <rect x="0" y="0" width="1400" height="700" fill="url(#g-sky)"/>
-        <rect x="0" y="700" width="1400" height="300" style="fill: var(--night-2)"/>
+        <rect x="0" y="700" width="1400" height="300" style="fill: var(--fog-2)"/>
       </symbol>
       <symbol id="s-strasse-far" viewBox="0 0 1400 1000">
         <path d="M300 700 L300 640 L340 640 L340 610 L380 585 L420 610 L420 640 L470 640 L470 620 L505 596 L540 620 L540 640 L600 640 L600 600 L650 570 L700 600 L700 640 L760 640 L760 616 L795 594 L830 616 L830 640 L890 640 L890 606 L935 578 L980 606 L980 640 L1040 640 L1040 700 Z"/>
         <path d="M1050 700 L1050 590 L1062 540 L1074 590 L1074 700 Z"/>
       </symbol>
       <symbol id="s-strasse-water" viewBox="0 0 1400 1000">
-        <path style="fill: var(--fog-1)" d="M-200 1000 L560 700 L800 700 L1600 1000 Z"/>
+        <path style="fill: var(--fog-3)" d="M-200 1000 L560 700 L800 700 L1600 1000 Z"/>
         <path style="fill: var(--ice)" fill-opacity="0.06" d="M-200 1000 L560 700 L580 700 L-100 1000 Z"/>
       </symbol>
       <symbol id="s-strasse-mid" viewBox="0 0 1400 1000">
@@ -1761,7 +1762,7 @@ git commit -m "Landschaften Damm und Lange Straße"
       </symbol>
       <symbol id="s-faehrberg-water" viewBox="0 0 1400 1000">
         <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="80" y="640" width="90" height="2"/><rect x="260" y="668" width="60" height="2"/><rect x="140" y="720" width="120" height="2"/><rect x="400" y="700" width="50" height="2"/></g>
-        <path style="fill: var(--fog-1)" d="M-200 1000 L-200 860 L500 780 L1600 700 L1600 1000 Z"/>
+        <path style="fill: var(--fog-3)" d="M-200 1000 L-200 860 L500 780 L1600 700 L1600 1000 Z"/>
         <path style="fill: var(--ice)" fill-opacity="0.07" d="M-200 860 L1600 700 L1600 712 L-200 872 Z"/>
       </symbol>
       <symbol id="s-faehrberg-haus" viewBox="0 0 1400 1000">
@@ -1783,14 +1784,14 @@ git commit -m "Landschaften Damm und Lange Straße"
 
       <!-- Szene 5: Die Tür. Nahaufnahme: Wand, Rahmen, Türblatt mit vier Füllungen, Griff. -->
       <symbol id="s-tuer-wand" viewBox="0 0 1400 1000">
-        <rect x="0" y="0" width="1400" height="1000" style="fill: var(--night-2)"/>
-        <rect x="380" y="120" width="640" height="880" style="fill: var(--fog-1)"/>
-        <rect x="420" y="160" width="560" height="840" style="fill: var(--night)"/>
-        <g style="fill: var(--night-2)">
+        <rect x="0" y="0" width="1400" height="1000" style="fill: var(--fog-1)"/>
+        <rect x="380" y="120" width="640" height="880" style="fill: var(--fog-2)"/>
+        <rect x="420" y="160" width="560" height="840" style="fill: var(--night-2)"/>
+        <g style="fill: var(--fog-1)">
           <rect x="470" y="210" width="200" height="300"/><rect x="730" y="210" width="200" height="300"/>
           <rect x="470" y="560" width="200" height="360"/><rect x="730" y="560" width="200" height="360"/>
         </g>
-        <rect x="930" y="600" width="18" height="70" rx="6" style="fill: var(--fog-2)"/>
+        <rect x="930" y="600" width="18" height="70" rx="6" style="fill: var(--fog-3)"/>
       </symbol>
 ```
 
