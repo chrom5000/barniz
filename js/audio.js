@@ -107,8 +107,12 @@ export function createAudio(button) {
   }
 
   async function toggle() {
-    if (!nodes) nodes = build();
+    if (!nodes) {
+      try { nodes = build(); } catch { return; } // kein Web Audio: Schalter bleibt wirkungslos
+    }
     on = !on;
+    button.setAttribute('aria-pressed', String(on));
+    button.textContent = on ? 'Ton aus' : 'Ton an';
     const { ctx, master } = nodes;
     if (on) {
       await ctx.resume();
@@ -119,14 +123,14 @@ export function createAudio(button) {
       master.gain.setTargetAtTime(0, ctx.currentTime, 0.2);
       setTimeout(() => { if (!on) ctx.suspend(); }, 700);
     }
-    button.setAttribute('aria-pressed', String(on));
-    button.textContent = on ? 'Ton aus' : 'Ton an';
   }
 
   button.addEventListener('click', toggle);
 
   return {
     setLevels(next) {
+      const same = ['wind', 'water', 'bass'].every(k => Math.abs(next[k] - levels[k]) < 0.002);
+      if (same) return;
       levels = next;
       apply();
     },
