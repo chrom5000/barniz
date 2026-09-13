@@ -14,6 +14,16 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/scenes.css">
+  <link rel="preload" as="image" href="assets/fotos/schlei.jpg" media="(orientation: landscape)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/schlei-h.jpg" media="(orientation: portrait)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/damm.jpg" media="(orientation: landscape)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/damm-h.jpg" media="(orientation: portrait)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/strasse.jpg" media="(orientation: landscape)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/strasse-h.jpg" media="(orientation: portrait)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/faehrberg.jpg" media="(orientation: landscape)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/faehrberg-h.jpg" media="(orientation: portrait)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/drueben.jpg" media="(orientation: landscape)" fetchpriority="low">
+  <link rel="preload" as="image" href="assets/fotos/drueben-h.jpg" media="(orientation: portrait)" fetchpriority="low">
   <noscript>
     <style>
       .scene { height: auto; min-height: 100vh; }
@@ -50,26 +60,6 @@
         <feGaussianBlur stdDeviation="6"/>
       </filter>
 
-      <!-- Szene 1: Die Schlei. Horizont bei y 620. -->
-      <symbol id="s-schlei-sky" viewBox="0 0 1400 1000">
-        <rect x="0" y="0" width="1400" height="620" fill="url(#g-sky)"/>
-        <rect x="0" y="620" width="1400" height="380" fill="url(#g-water)"/>
-      </symbol>
-      <symbol id="s-schlei-far" viewBox="0 0 1400 1000">
-        <path d="M0 618 C120 606 260 622 400 610 C540 598 680 616 820 606 C960 596 1100 614 1240 604 C1300 600 1360 606 1400 604 L1400 660 L0 660 Z"/>
-        <g style="fill: var(--ice)" fill-opacity="0.6">
-          <circle cx="330" cy="611" r="2.2"/><circle cx="612" cy="608" r="1.8"/><circle cx="905" cy="604" r="2.4"/><circle cx="1060" cy="607" r="1.6"/>
-        </g>
-      </symbol>
-      <symbol id="s-schlei-water" viewBox="0 0 1400 1000">
-        <g style="fill: var(--ice)" fill-opacity="0.10">
-          <rect x="300" y="650" width="70" height="2"/><rect x="590" y="668" width="50" height="2"/><rect x="880" y="655" width="90" height="2"/><rect x="860" y="690" width="60" height="2"/><rect x="320" y="700" width="40" height="2"/><rect x="1040" y="672" width="45" height="2"/><rect x="600" y="730" width="120" height="2"/><rect x="870" y="760" width="80" height="2"/>
-        </g>
-        <path style="fill: var(--ice)" fill-opacity="0.12" d="M0 1000 L0 905 L120 918 L215 892 L330 922 L470 903 L565 936 L700 908 L820 942 L960 912 L1100 946 L1250 918 L1400 950 L1400 1000 Z"/>
-      </symbol>
-      <symbol id="s-schlei-mid" viewBox="0 0 1400 1000">
-        <rect x="884" y="690" width="14" height="230" rx="3"/><rect x="912" y="712" width="12" height="208" rx="3"/>
-      </symbol>
       <!-- Randstücke (viewBox 300×600, Boden bei y 600): Schilf links und rechts, wiederverwendet in Szene 2 und 6 -->
       <symbol id="s-schilf-l" viewBox="0 0 300 600">
         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="7">
@@ -84,58 +74,7 @@
         <ellipse cx="206" cy="82" rx="8" ry="32" transform="rotate(-6 206 82)"/><ellipse cx="110" cy="182" rx="7" ry="28" transform="rotate(-10 110 182)"/>
       </symbol>
 
-      <!-- Szene 2: Der Damm. Straße von Grödersby auf die Halbinsel, Wasser beidseits. Horizont y 640. -->
-      <symbol id="s-damm-sky" viewBox="0 0 1400 1000">
-        <rect x="0" y="0" width="1400" height="640" fill="url(#g-sky)"/>
-        <rect x="0" y="640" width="1400" height="360" fill="url(#g-water)"/>
-      </symbol>
-      <symbol id="s-damm-far" viewBox="0 0 1400 1000">
-        <!-- Halbinsel: niedrige Häuser, in der Mitte der Kirchturm -->
-        <path d="M430 640 L430 626 L470 626 L470 606 L500 588 L530 606 L530 626 L575 626 L575 600 L605 580 L635 600 L635 626 L680 626 L680 612 L705 596 L730 612 L730 626 L748 626 L748 560 L760 520 L772 560 L772 626 L800 626 L800 604 L830 586 L860 604 L860 626 L905 626 L905 610 L930 594 L955 610 L955 626 L990 626 L990 640 Z"/>
-        <path d="M0 640 C150 630 300 636 430 632 L430 660 L0 660 Z"/>
-        <path d="M990 632 C1120 628 1280 634 1400 630 L1400 660 L990 660 Z"/>
-        <g style="fill: var(--ice)" fill-opacity="0.6"><circle cx="512" cy="616" r="1.8"/><circle cx="618" cy="612" r="2"/><circle cx="842" cy="614" r="1.8"/></g>
-      </symbol>
-      <symbol id="s-damm-water" viewBox="0 0 1400 1000">
-        <path style="fill: var(--fog-3)" d="M-200 1000 L660 638 L740 638 L1600 1000 Z"/>
-        <path style="fill: var(--ice)" fill-opacity="0.08" d="M-200 1000 L660 638 L672 638 L-120 1000 Z"/>
-        <path style="fill: var(--ice)" fill-opacity="0.08" d="M728 638 L740 638 L1600 1000 L1520 1000 Z"/>
-        <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="120" y="700" width="90" height="2"/><rect x="1150" y="690" width="70" height="2"/><rect x="60" y="780" width="60" height="2"/><rect x="1260" y="760" width="110" height="2"/></g>
-      </symbol>
-      <symbol id="s-damm-mid" viewBox="0 0 1400 1000">
-        <path d="M0 720 C120 700 260 712 400 690 C480 678 560 672 640 660 L640 700 L0 720 Z" fill-opacity="0.55"/>
-        <path d="M760 660 C840 672 920 680 1000 694 C1140 716 1280 704 1400 724 L1400 760 L760 700 Z" fill-opacity="0.55"/>
-      </symbol>
 
-      <!-- Szene 3: Die Lange Straße. Häuserzeile mit Kirchturm am Ende (im Handy-Band), Laterne rechts der Mitte, Hausecken als Randstücke. Horizont y 700. -->
-      <symbol id="s-strasse-sky" viewBox="0 0 1400 1000">
-        <rect x="0" y="0" width="1400" height="700" fill="url(#g-sky)"/>
-        <rect x="0" y="700" width="1400" height="300" style="fill: var(--fog-2)"/>
-      </symbol>
-      <symbol id="s-strasse-far" viewBox="0 0 1400 1000">
-        <path d="M300 700 L300 640 L340 640 L340 610 L380 585 L420 610 L420 640 L470 640 L470 620 L505 596 L540 620 L540 640 L600 640 L600 600 L650 570 L700 600 L700 640 L712 640 L712 580 L724 530 L736 580 L736 640 L760 640 L760 616 L795 594 L830 616 L830 640 L890 640 L890 606 L935 578 L980 606 L980 640 L1040 640 L1040 700 Z"/>
-      </symbol>
-      <symbol id="s-strasse-water" viewBox="0 0 1400 1000">
-        <path style="fill: var(--fog-3)" d="M-200 1000 L560 700 L800 700 L1600 1000 Z"/>
-        <path style="fill: var(--ice)" fill-opacity="0.06" d="M-200 1000 L560 700 L580 700 L-100 1000 Z"/>
-      </symbol>
-      <symbol id="s-strasse-mid" viewBox="0 0 1400 1000">
-        <!-- zwei Häuser in mittlerer Entfernung, quer sichtbar; Laterne im Handy-Band -->
-        <path d="M210 1000 L210 520 L290 480 L370 520 L370 1000 Z"/>
-        <path d="M1030 1000 L1030 500 L1110 460 L1190 500 L1190 1000 Z"/>
-        <g style="fill: var(--night)">
-          <rect x="245" y="560" width="26" height="40"/><rect x="305" y="560" width="26" height="40"/>
-          <rect x="1065" y="545" width="26" height="40"/><rect x="1125" y="545" width="26" height="40"/>
-        </g>
-        <g fill="none" stroke="#9FB4C7" stroke-opacity="0.25" stroke-width="4" stroke-linecap="round">
-          <path d="M210 520 L290 480 L370 520"/><path d="M1030 500 L1110 460 L1190 500"/>
-        </g>
-        <!-- Laterne: Schein, Mast, Kopf, Licht -->
-        <circle cx="900" cy="629" r="120" fill="url(#g-amber-glow)"/>
-        <rect x="896" y="640" width="8" height="360" style="fill: var(--night)"/>
-        <rect x="883" y="612" width="34" height="34" rx="4" style="fill: var(--night)"/>
-        <rect x="889" y="618" width="22" height="22" rx="2" style="fill: var(--amber)"/>
-      </symbol>
       <!-- Randstücke: Hausecken links und rechts (viewBox 300×600) -->
       <symbol id="s-haus-ecke-l" viewBox="0 0 300 600">
         <path d="M0 600 L0 40 L60 20 L300 190 L300 600 Z"/>
@@ -146,32 +85,6 @@
         <rect x="100" y="320" width="60" height="90" style="fill: var(--night-2)"/>
       </symbol>
 
-      <!-- Szene 4: Der Fährberg. Straße fällt nach links zum Wasser ab, rechts das Fährhaus. Horizont y 600. -->
-      <symbol id="s-faehrberg-sky" viewBox="0 0 1400 1000">
-        <rect x="0" y="0" width="1400" height="600" fill="url(#g-sky)"/>
-        <rect x="0" y="600" width="1400" height="400" fill="url(#g-water)"/>
-      </symbol>
-      <symbol id="s-faehrberg-far" viewBox="0 0 1400 1000">
-        <!-- Schwansener Ufer, drüben -->
-        <path d="M0 596 C200 590 400 598 600 592 C700 590 760 594 800 592 L800 620 L0 620 Z"/>
-        <g style="fill: var(--ice)" fill-opacity="0.5"><circle cx="150" cy="592" r="1.6"/><circle cx="520" cy="590" r="1.4"/></g>
-      </symbol>
-      <symbol id="s-faehrberg-water" viewBox="0 0 1400 1000">
-        <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="80" y="640" width="90" height="2"/><rect x="260" y="668" width="60" height="2"/><rect x="140" y="720" width="120" height="2"/><rect x="400" y="700" width="50" height="2"/></g>
-        <path style="fill: var(--fog-3)" d="M-200 1000 L-200 860 L500 780 L1600 700 L1600 1000 Z"/>
-        <path style="fill: var(--ice)" fill-opacity="0.07" d="M-200 860 L1600 700 L1600 712 L-200 872 Z"/>
-      </symbol>
-      <symbol id="s-faehrberg-haus" viewBox="0 0 1400 1000">
-        <!-- Fährhaus: zwei Geschosse, Satteldach, Giebel zur Straße; alle Fenster dunkel. Liegt im Handy-Band x 520–960. -->
-        <path d="M520 760 L520 520 L740 380 L960 520 L960 760 Z"/>
-        <rect x="860" y="420" width="30" height="80"/>
-        <g style="fill: var(--night)">
-          <rect x="560" y="560" width="42" height="60"/><rect x="640" y="560" width="42" height="60"/><rect x="800" y="560" width="42" height="60"/><rect x="880" y="560" width="42" height="60"/>
-          <rect x="560" y="660" width="42" height="60"/><rect x="640" y="660" width="42" height="60"/><rect x="800" y="660" width="42" height="60"/><rect x="880" y="660" width="42" height="60"/>
-          <rect x="710" y="640" width="60" height="120"/>
-        </g>
-        <path fill="none" stroke="#9FB4C7" stroke-opacity="0.22" stroke-width="4" stroke-linecap="round" d="M520 520 L740 380 L960 520"/>
-      </symbol>
       <!-- Randstück: niedrige Mauer links (viewBox 300×600) -->
       <symbol id="s-mauer-l" viewBox="0 0 300 600">
         <path d="M0 600 L0 420 L300 440 L300 600 Z"/>
@@ -190,33 +103,6 @@
         <rect x="880" y="600" width="18" height="70" rx="6" style="fill: var(--fog-3)"/>
       </symbol>
 
-      <!-- Szene 6: Der Blick nach drüben. Anleger, stille Fähre, gegenüber Schwansen. Horizont y 520. -->
-      <symbol id="s-drueben-sky" viewBox="0 0 1400 1000">
-        <rect x="0" y="0" width="1400" height="520" fill="url(#g-sky)"/>
-        <rect x="0" y="520" width="1400" height="480" fill="url(#g-water)"/>
-      </symbol>
-      <symbol id="s-drueben-far" viewBox="0 0 1400 1000">
-        <path d="M0 526 C100 520 200 528 300 522 L330 508 L350 522 L520 522 L540 500 L556 522 L620 520 C760 514 900 526 1040 518 L1060 502 L1078 518 L1400 520 L1400 560 L0 560 Z"/>
-        <g style="fill: var(--ice)" fill-opacity="0.5"><circle cx="420" cy="519" r="1.6"/><circle cx="1200" cy="517" r="1.4"/></g>
-      </symbol>
-      <symbol id="s-drueben-water" viewBox="0 0 1400 1000">
-        <g style="fill: var(--ice)" fill-opacity="0.10"><rect x="380" y="560" width="80" height="2"/><rect x="1160" y="556" width="90" height="2"/><rect x="200" y="640" width="120" height="2"/><rect x="1000" y="700" width="70" height="2"/><rect x="150" y="820" width="90" height="2"/><rect x="1180" y="860" width="140" height="2"/></g>
-      </symbol>
-      <symbol id="s-drueben-mid" viewBox="0 0 1400 1000">
-        <!-- Fähre, still am Anleger (Handy-Band x 640–940): flacher Rumpf, Steuerhaus, Mast; zwei Dalben -->
-        <path d="M640 548 L654 566 L926 566 L940 548 Z"/>
-        <rect x="640" y="540" width="300" height="8"/>
-        <rect x="750" y="500" width="76" height="48" rx="2"/>
-        <rect x="770" y="482" width="10" height="18"/>
-        <rect x="590" y="520" width="12" height="70" rx="3"/><rect x="960" y="516" width="12" height="76" rx="3"/>
-      </symbol>
-      <symbol id="s-drueben-steg" viewBox="0 0 1400 1000">
-        <!-- Steg mit Planken, läuft aufs Wasser zu -->
-        <path d="M260 1000 L620 560 L780 560 L1140 1000 Z"/>
-        <g fill="none" stroke="#9FB4C7" stroke-opacity="0.10" stroke-width="3">
-          <path d="M290 964 L1110 964"/><path d="M340 900 L1060 900"/><path d="M385 846 L1015 846"/><path d="M425 796 L975 796"/><path d="M462 750 L938 750"/><path d="M495 710 L905 710"/><path d="M525 672 L875 672"/><path d="M552 640 L848 640"/><path d="M576 610 L824 610"/><path d="M598 586 L802 586"/>
-        </g>
-      </symbol>
       <!-- Randstück: Poller links (viewBox 300×600) -->
       <symbol id="s-poller-l" viewBox="0 0 300 600">
         <path d="M60 600 L60 400 C60 370 150 370 150 400 L150 600 Z"/>
@@ -239,18 +125,14 @@
 
     <section class="scene" data-scene="schlei" style="--h: 250">
       <div class="stage" aria-hidden="true">
-        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-sky"/></svg></div>
-        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-far"/></svg></div>
+        <div class="layer layer--foto foto--schlei"></div>
         <div class="fog fog--a"></div>
-        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-water"/></svg></div>
-        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-mid"/></svg></div>
         <div class="fog fog--b"></div>
         <div class="layer layer--fg">
           <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
           <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
         </div>
         <div class="lit">
-          <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-schlei-mid"/></svg></div>
           <div class="layer layer--fg">
             <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
             <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
@@ -267,18 +149,14 @@
 
     <section class="scene" data-scene="damm" style="--h: 250">
       <div class="stage" aria-hidden="true">
-        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-sky"/></svg></div>
-        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-far"/></svg></div>
+        <div class="layer layer--foto foto--damm"></div>
         <div class="fog fog--a"></div>
-        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-water"/></svg></div>
-        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-mid"/></svg></div>
         <div class="fog fog--b"></div>
         <div class="layer layer--fg">
           <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
           <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
         </div>
         <div class="lit">
-          <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-damm-mid"/></svg></div>
           <div class="layer layer--fg">
             <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-schilf-l"/></svg></div>
             <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
@@ -294,23 +172,9 @@
 
     <section class="scene" data-scene="lange-strasse" style="--h: 250">
       <div class="stage" aria-hidden="true">
-        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-sky"/></svg></div>
-        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-far"/></svg></div>
+        <div class="layer layer--foto foto--strasse"></div>
         <div class="fog fog--a"></div>
-        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-water"/></svg></div>
-        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-mid"/></svg></div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg">
-          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-haus-ecke-l"/></svg></div>
-          <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-haus-ecke-r"/></svg></div>
-        </div>
-        <div class="lit">
-          <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-strasse-mid"/></svg></div>
-          <div class="layer layer--fg">
-            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-haus-ecke-l"/></svg></div>
-            <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-haus-ecke-r"/></svg></div>
-          </div>
-        </div>
         <div class="veil"></div>
       </div>
       <div class="lines">
@@ -322,27 +186,18 @@
 
     <section class="scene" data-scene="faehrberg" style="--h: 250">
       <div class="stage" aria-hidden="true">
-        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-sky"/></svg></div>
-        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-far"/></svg></div>
-        <div class="fog fog--a"></div>
-        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-water"/></svg></div>
-        <div class="layer layer--mid">
-          <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-haus"/></svg>
-          <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice" class="fenster">
-            <circle cx="821" cy="590" r="90" fill="url(#g-amber-glow)"/>
-            <rect x="800" y="560" width="42" height="60" style="fill: var(--amber)"/>
+        <div class="layer layer--foto foto--faehrberg">
+          <svg class="fenster nur-quer" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice">
+            <circle cx="862" cy="500" r="70" fill="url(#g-amber-glow)"/>
+            <rect x="848" y="486" width="28" height="28" style="fill: var(--amber)"/>
+          </svg>
+          <svg class="fenster nur-hoch" viewBox="0 0 1000 1600" preserveAspectRatio="xMidYMax slice">
+            <circle cx="538" cy="804" r="70" fill="url(#g-amber-glow)"/>
+            <rect x="520" y="786" width="36" height="36" style="fill: var(--amber)"/>
           </svg>
         </div>
+        <div class="fog fog--a"></div>
         <div class="fog fog--b"></div>
-        <div class="layer layer--fg">
-          <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-mauer-l"/></svg></div>
-        </div>
-        <div class="lit">
-          <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-faehrberg-haus"/></svg></div>
-          <div class="layer layer--fg">
-            <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-mauer-l"/></svg></div>
-          </div>
-        </div>
         <div class="veil"></div>
       </div>
       <div class="lines">
@@ -377,21 +232,15 @@
 
     <section class="scene" data-scene="drueben" style="--h: 250">
       <div class="stage" aria-hidden="true">
-        <div class="layer layer--sky"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-sky"/></svg></div>
-        <div class="layer layer--far"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-far"/></svg></div>
+        <div class="layer layer--foto foto--drueben"></div>
         <div class="fog fog--a"></div>
-        <div class="layer layer--water"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-water"/></svg></div>
-        <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-mid"/></svg></div>
         <div class="fog fog--b"></div>
         <div class="layer layer--fg">
-          <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-steg"/></svg>
           <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-poller-l"/></svg></div>
           <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
         </div>
         <div class="lit">
-          <div class="layer layer--mid"><svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-mid"/></svg></div>
           <div class="layer layer--fg">
-            <svg viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMax slice"><use href="#s-drueben-steg"/></svg>
             <div class="edge edge--left"><svg viewBox="0 0 300 600" preserveAspectRatio="xMinYMax meet"><use href="#s-poller-l"/></svg></div>
             <div class="edge edge--right"><svg viewBox="0 0 300 600" preserveAspectRatio="xMaxYMax meet"><use href="#s-schilf-r"/></svg></div>
           </div>
@@ -411,11 +260,10 @@
         <div class="layer layer--sky layer--nebel"></div>
         <div class="fog fog--a"></div>
         <div class="fog fog--b"></div>
-        <svg class="kangaroo" viewBox="0 0 400 600" preserveAspectRatio="xMidYMax meet">
-          <path class="kangaroo__body" d="M120 152 C132 124 160 98 190 90 C184 62 176 32 170 10 C190 30 206 60 210 80 C220 76 232 76 242 80 C250 58 258 32 268 12 C274 42 264 68 256 88 C264 112 272 150 276 190 C300 250 328 330 320 410 C336 452 366 520 398 582 C372 568 336 536 306 500 C290 540 272 570 252 582 L78 584 C96 566 140 560 196 566 C172 540 142 508 126 476 C110 442 114 402 136 380 C140 340 146 300 160 270 C148 262 140 248 150 238 C160 218 170 200 178 182 C168 170 142 160 120 152 Z"/>
-          <circle class="kangaroo__eye" cx="196" cy="120" r="7"/>
-          <circle class="kangaroo__eye" cx="228" cy="116" r="7"/>
-        </svg>
+        <div class="kangaroo">
+          <img class="kangaroo__body" src="assets/kaenguru.png" width="360" height="480" alt="">
+          <span class="kangaroo__eye" style="left: 72%; top: 19.5%"></span>
+        </div>
         <div class="veil"></div>
       </div>
       <div class="lines">
@@ -429,7 +277,7 @@
 
   <footer class="foot mono">
     <p>Arnis · ein Winter · eine Schnapsidee</p>
-    <a href="impressum.html">Impressum</a>
+    <p><a href="impressum.html">Impressum</a> · <a href="bildnachweis.html">Bildnachweise</a></p>
   </footer>
 
   <canvas class="snow" aria-hidden="true"></canvas>

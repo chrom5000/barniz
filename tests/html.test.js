@@ -114,7 +114,8 @@ test('Amber-Disziplin: #F2B84B nur in tokens.css, var(--amber) nur an den vier e
     assert.equal((content.match(/#F2B84B/g) ?? []).length, 0, `js/${f}: #F2B84B sollte nicht vorkommen`);
   }
 
-  // Laterne, Fenster, Türspalt, zwei Verläufe à 2 Stops
+  // Fenster (je eine Überlagerung quer und hochkant), Türspalt, zwei Verläufe à 2 Stops
+  // (die gezeichnete Laterne entfiel mit der Fotoplatte)
   assert.equal((html.match(/var\(--amber\)/g) ?? []).length, 7, 'index.html: var(--amber) sollte genau 7-mal vorkommen');
   // Augen: fill und drop-shadow
   assert.equal((scenesCss.match(/var\(--amber\)/g) ?? []).length, 2, 'css/scenes.css: var(--amber) sollte genau 2-mal vorkommen');

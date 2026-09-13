@@ -8,3 +8,5 @@ Lokal ansehen: `python3 -m http.server 8080` im Projektroot, dann <http://localh
 Tests: `node --test` (Node ≥ 20).
 Schriften neu laden (nur nötig, wenn `assets/fonts/` fehlt): `node tools/fetch-fonts.mjs`.
 `tools/` enthält Entwicklungshilfen (Schriften laden, Screenshot-Seiten); sie werden mit veröffentlicht, sind aber nicht verlinkt.
+
+Die Landschaften basieren auf Fotos von Wikimedia Commons (CC BY / CC BY-SA), als Nachtplatten bearbeitet; die Känguru-Silhouette ist aus einem Foto freigestellt. Nachweise und Lizenzen: `bildnachweis.html`. Neue Platten entstehen mit `tools/nachtplatte.html` und `tools/freistellen.html` (Headless-Chrome, siehe Kommentare in den Dateien).

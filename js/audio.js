@@ -24,6 +24,12 @@ function noiseBuffer(ctx, brown) {
 }
 
 function build() {
+  // iOS: Web Audio schweigt bei gestelltem Stummschalter, es sei denn, die
+  // Seite meldet sich als Wiedergabe an (Safari 17+). Der Ton wird ohnehin
+  // nur auf ausdrückliches Tippen gestartet.
+  if (navigator.audioSession) {
+    try { navigator.audioSession.type = 'playback'; } catch { /* ältere Safari */ }
+  }
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const master = ctx.createGain();
   master.gain.value = 0;

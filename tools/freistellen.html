@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Freistellen</title>
+  <style>body { margin: 0; background: #888; } canvas, img { display: block; } img { position: absolute; left: -99999px; } pre { font-size: 4px; word-break: break-all; }</style>
+</head>
+<body>
+  <script>
+    // Entwicklungs-Hilfsseite: stellt eine dunkle Silhouette vor hellem Grund frei.
+    // freistellen.html?src=…&sx=1950&sy=1780&sw=240&sh=320&h=480&thr=0.40&feather=0.12&r=24&g=32&b=47&cut=410,429
+    // cut=yLinks,yRechts: unterhalb dieser (schrägen) Linie im Ausgabebild wird alles transparent.
+    // Ergebnis als PNG-Data-URL (Alpha) in <pre id="out">. Ohne thr: nur Ausschnitt zeigen (Vorschau).
+    const q = new URLSearchParams(location.search);
+    document.write(`<img id="src" src="${q.get('src').replace(/"/g, '')}" alt="">`);
+  </script>
+  <canvas id="c"></canvas>
+  <pre id="out"></pre>
+  <script>
+    const sx = Number(q.get('sx')), sy = Number(q.get('sy')), sw = Number(q.get('sw')), sh = Number(q.get('sh'));
+    const H = Number(q.get('h') || 480);
+    const thr = q.has('thr') ? Number(q.get('thr')) : null;
+    const feather = Number(q.get('feather') || 0.1);
+    const col = [Number(q.get('r') || 24), Number(q.get('g') || 32), Number(q.get('b') || 47)];
+    const cut = q.has('cut') ? q.get('cut').split(',').map(Number) : null;
+
+    window.addEventListener('load', () => {
+      const img = document.getElementById('src');
+      const scale = H / sh;
+      const W = Math.round(sw * scale);
+      const c = document.getElementById('c');
+      c.width = W; c.height = H;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+      if (thr === null) return;
+      const d = ctx.getImageData(0, 0, W, H);
+      const p = d.data;
+      for (let i = 0, n = W * H; i < n; i++) {
+        const o = i * 4;
+        const x = i % W, y = (i / W) | 0;
+        const L = (0.2126 * p[o] + 0.7152 * p[o + 1] + 0.0722 * p[o + 2]) / 255;
+        let a = Math.min(1, Math.max(0, (thr - L) / feather + 0.5));
+        if (cut) {
+          const yc = cut[0] + (cut[1] - cut[0]) * (x / W);
+          if (y > yc) a *= Math.max(0, 1 - (y - yc) / 3);
+        }
+        p[o] = col[0]; p[o + 1] = col[1]; p[o + 2] = col[2]; p[o + 3] = Math.round(a * 255);
+      }
+      ctx.putImageData(d, 0, 0);
+      document.getElementById('out').textContent = c.toDataURL('image/png');
+    });
+  </script>
+</body>
+</html>

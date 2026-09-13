@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Nachtplatte</title>
+  <style>body { margin: 0; background: #070B14; } canvas, img { display: block; } img { position: absolute; left: -99999px; } pre { font-size: 4px; word-break: break-all; }</style>
+</head>
+<body>
+  <script>
+    // Entwicklungs-Hilfsseite: macht aus einem Foto eine Nachtplatte im Stil der Seite.
+    // nachtplatte.html?src=../tmp/foto.jpg&w=1600&h=1000&fx=0.5&fy=0.6&q=0.72&gamma=1.3&vig=0.55
+    // Ergebnis als JPEG-Data-URL in <pre id="out"> (per Headless-Chrome --dump-dom abholen).
+    // Das Bild steht als <img> im Markup und die Verarbeitung läuft synchron im
+    // load-Ereignis, damit der DOM-Dump die Daten sicher enthält.
+    const q = new URLSearchParams(location.search);
+    document.write(`<img id="src" src="${q.get('src').replace(/"/g, '')}" alt="">`);
+  </script>
+  <canvas id="c"></canvas>
+  <pre id="out"></pre>
+  <script>
+    const W = Number(q.get('w') || 1600);
+    const H = Number(q.get('h') || 1000);
+    const fx = Number(q.get('fx') || 0.5);
+    const fy = Number(q.get('fy') || 0.5);
+    const quality = Number(q.get('q') || 0.72);
+    const gamma = Number(q.get('gamma') || 1.3);
+    const vig = Number(q.get('vig') || 0.55);
+    const lo = Number(q.get('lo') || 0.04);
+    const hi = Number(q.get('hi') || 0.96);
+    // Duotone-Rampe: Nacht → fog-1 → fog-2 → gedecktes Eisblau
+    const ramp = [[7, 11, 20], [24, 32, 47], [40, 50, 63], [92, 108, 124]];
+
+    window.addEventListener('load', () => {
+      const img = document.getElementById('src');
+      const c = document.getElementById('c');
+      c.width = W; c.height = H;
+      const ctx = c.getContext('2d');
+      const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+      const sw = W / s, sh = H / s;
+      const sx = (img.naturalWidth - sw) * fx, sy = (img.naturalHeight - sh) * fy;
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+      const d = ctx.getImageData(0, 0, W, H);
+      const p = d.data;
+      const cx = W / 2, cy = H * 0.62, rmax = Math.hypot(cx, cy);
+      for (let i = 0, n = W * H; i < n; i++) {
+        const o = i * 4;
+        let L = (0.2126 * p[o] + 0.7152 * p[o + 1] + 0.0722 * p[o + 2]) / 255;
+        L = Math.min(1, Math.max(0, (L - lo) / (hi - lo)));
+        L = Math.pow(L, gamma);
+        const x = i % W, y = (i / W) | 0;
+        const r = Math.hypot(x - cx, y - cy) / rmax;
+        L *= 1 - vig * r * r;
+        const t = L * (ramp.length - 1);
+        const k = Math.min(ramp.length - 2, Math.floor(t));
+        const f = t - k;
+        p[o] = ramp[k][0] + (ramp[k + 1][0] - ramp[k][0]) * f;
+        p[o + 1] = ramp[k][1] + (ramp[k + 1][1] - ramp[k][1]) * f;
+        p[o + 2] = ramp[k][2] + (ramp[k + 1][2] - ramp[k][2]) * f;
+      }
+      ctx.putImageData(d, 0, 0);
+      document.getElementById('out').textContent = c.toDataURL('image/jpeg', quality);
+    });
+  </script>
+</body>
+</html>

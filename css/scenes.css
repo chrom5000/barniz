@@ -180,26 +180,59 @@
 .layer--nebel {
   background: linear-gradient(180deg, var(--fog-1) 0%, var(--fog-3) 50%, var(--fog-2) 100%);
 }
+/* Silhouette aus einem Foto freigestellt (assets/kaenguru.png, siehe
+   bildnachweis.html); das Auge sitzt als eigenes Element auf dem Kopf. */
 .kangaroo {
   position: absolute;
   left: 55%;
   bottom: 22%;
   height: 55vh;
-  width: auto;
   transform: translateX(-50%);
-  overflow: visible;
 }
 @media (orientation: portrait) {
   .kangaroo { height: 45vh; }
 }
 .kangaroo__body {
-  fill: var(--fog-1);
+  display: block;
+  height: 100%;
+  width: auto;
   opacity: clamp(0, (var(--p, 0) - 0.45) / 0.15, 1);
 }
 .kangaroo__eye {
-  fill: var(--amber);
+  position: absolute;
+  width: 0.7vh;
+  height: 0.7vh;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
   opacity: clamp(0, (var(--p, 0) - 0.30) / 0.06, 1);
-  filter: drop-shadow(0 0 6px var(--amber));
+}
+
+/* ---- Fotoplatten: je Szene ein Foto als Nachtplatte (Bildnachweise siehe bildnachweis.html).
+   Quer 1600×1000, hochkant eine eigene 1000×1600-Platte; „cover“ + „center bottom“ entspricht
+   der Geometrie der SVG-Ebenen (xMidYMax slice), damit Überlagerungen (Fenster) passen. ---- */
+.layer--foto {
+  --fx: -1; --fy: 0; --fs: 0.06;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+}
+.foto--schlei    { background-image: url('../assets/fotos/schlei.jpg'); }
+.foto--damm      { background-image: url('../assets/fotos/damm.jpg'); }
+.foto--strasse   { background-image: url('../assets/fotos/strasse.jpg'); }
+.foto--faehrberg { background-image: url('../assets/fotos/faehrberg.jpg'); }
+.foto--drueben   { background-image: url('../assets/fotos/drueben.jpg'); }
+/* Überlagerungen je Ausrichtung (Spezifität über .layer > svg) */
+.layer > .nur-hoch { display: none; }
+@media (orientation: portrait) {
+  .foto--schlei    { background-image: url('../assets/fotos/schlei-h.jpg'); }
+  .foto--damm      { background-image: url('../assets/fotos/damm-h.jpg'); }
+  .foto--strasse   { background-image: url('../assets/fotos/strasse-h.jpg'); }
+  .foto--faehrberg { background-image: url('../assets/fotos/faehrberg-h.jpg'); }
+  .foto--drueben   { background-image: url('../assets/fotos/drueben-h.jpg'); }
+  .layer > .nur-quer { display: none; }
+  .layer > .nur-hoch { display: block; }
 }
 
 /* ---- Känguru-Szene: Text und Silhouette teilen sich den Platz ---- */

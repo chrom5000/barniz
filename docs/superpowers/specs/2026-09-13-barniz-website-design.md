@@ -74,6 +74,8 @@ Fallbacks: `Georgia, serif` bzw. `ui-monospace, Menlo, monospace`.
 
 ### Landschaft
 
+**Änderung nach Abnahme (13.09.2026, Wunsch des Auftraggebers: Arnis muss erkennbar sein):** Die Szenen 1, 2, 3, 4 und 6 zeigen als Grundebene je ein Foto von Wikimedia Commons als „Nachtplatte“ (entsättigt, Duotone Nacht → Eisblau, abgedunkelt, Vignette; erzeugt mit `tools/nachtplatte.html`, 1600 × 1000, JPEG), eingebettet als SVG-`<image>` mit `preserveAspectRatio="xMidYMax slice"` in der Ebene `.layer--foto`. Silhouetten-Ebenen (Häuserzeile, Fährhaus, Fähre, gezeichnete Laterne) entfallen; Randstücke, Nebel, Vorhang und das flackernde Fenster (jetzt auf einem Haus der Fotoplatte) bleiben. Die Tür (Szene 5) bleibt gezeichnet. Das Känguru ist eine aus einem Foto freigestellte Silhouette (`assets/kaenguru.png`, ein sichtbares Auge im Profil). Bildnachweise mit Lizenzen auf `bildnachweis.html`, verlinkt aus der Fußzeile; Gewichtsgrenze der Seite auf 1 MB angehoben. Die folgende Beschreibung gilt für die verbliebenen gezeichneten Ebenen.
+
 Jede Szene besteht aus 4–6 inline-SVG-Ebenen (`viewBox` breiter als hoch, `preserveAspectRatio="xMidYMax slice"`, Breite 140 % des Viewports, damit hochkant beschnitten statt gestaucht wird). Ebenen sind reine Silhouetten in den Nebeltönen; keine Details, keine Konturen. Reihenfolge und Parallaxe-Faktor (Verschiebung in vw über die ganze Szene, negativ = nach links/oben):
 
 | Ebene | Faktor x | Faktor y | Skalierung |
@@ -269,5 +271,5 @@ Markup je Szene:
 
 - Kein Kontaktformular, kein Newsletter, kein Social-Link, keine Analytics.
 - Kein CMS, keine Mehrsprachigkeit, kein Blog.
-- Keine echten Fotos, keine Musikdateien.
+- Keine Musikdateien. (Fotos: seit der Änderung vom 13.09.2026 als bearbeitete Nachtplatten, siehe „Landschaft“.)
 - Kein Inhalt für `impressum.html` über den Platzhalter hinaus.
