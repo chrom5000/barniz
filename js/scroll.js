@@ -35,6 +35,7 @@ export function createScrollEngine({ sections, onFrame }) {
     velocity += ((y - lastY) / dt - velocity) * 0.25;
     lastY = y;
     lastT = now;
+    document.documentElement.style.setProperty('--vel', velocity.toFixed(1));
     const vh = window.innerHeight;
     let current = null;
     for (const it of items) {
