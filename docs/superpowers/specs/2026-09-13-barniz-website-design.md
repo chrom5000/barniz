@@ -129,7 +129,7 @@ Unter den Koordinaten steht die Szenenkennung in Mono, ebenfalls `--mute`: `SCHL
 
 ### Das Känguru
 
-`assets/kangaroo.svg`: eine anatomisch glaubwürdige Silhouette (aufrecht sitzend, Schwanz am Boden, Ohren gestellt, Kopf leicht zum Betrachter gedreht), ein einziger Pfad, Füllung `--fog-2`. Höhe etwa 55 vh auf Desktop, 45 vh hochkant, leicht rechts der Mitte (55 %), Fußpunkt bei 78 % der Viewporthöhe. Die Augen sind zwei Kreise (`--amber`, Radius 0.35 % der Viewporthöhe) mit weichem `drop-shadow`-Glühen; sie erscheinen vor der Silhouette (`p 0.30`), die Silhouette blendet von `p 0.45` bis `0.60` ein. Kein Gesicht, keine Zeichnungsdetails.
+Die Silhouette liegt als `<symbol id="s-kaenguru">` im SVG-Sprite am Anfang von `index.html` (alle Landschaftsebenen sind dort als Symbole definiert und werden per `<use>` eingesetzt, damit die Laternen-Kopien keinen doppelten Pfad brauchen): eine anatomisch glaubwürdige Silhouette (aufrecht sitzend, Schwanz am Boden, Ohren gestellt, Kopf leicht zum Betrachter gedreht), ein einziger Pfad, Füllung `--fog-2`. Höhe etwa 55 vh auf Desktop, 45 vh hochkant, leicht rechts der Mitte (55 %), Fußpunkt bei 78 % der Viewporthöhe. Die Augen sind zwei Kreise (`--amber`, Radius 0.35 % der Viewporthöhe) mit weichem `drop-shadow`-Glühen; sie erscheinen vor der Silhouette (`p 0.30`), die Silhouette blendet von `p 0.45` bis `0.60` ein. Kein Gesicht, keine Zeichnungsdetails.
 
 ### Ton-Schalter
 
@@ -152,12 +152,16 @@ js/scroll.js          liest scrollY, ruft progress.js, schreibt --p und data-sta
 js/snow.js            Canvas-Schnee
 js/lantern.js         Lichtkegel
 js/coords.js          Koordinaten-Interpolation und -Formatierung
+js/levels.js          reine Funktionen: Schnee- und Audio-Zielwerte je Szene und p, mit Überblendung
 js/audio.js           Web-Audio-Ambient
 js/typewriter.js      letzte Frage
 js/grain.js           Korn-Versatz
+package.json          nur "type": "module" und das Test-Skript, keine Abhängigkeiten
 assets/fonts/         woff2-Dateien und LICENSE-Dateien der Schriften
-assets/kangaroo.svg
 assets/og.png
+assets/favicon.svg
+tools/fetch-fonts.mjs  einmaliges Skript, lädt die Latin-Subsets der Schriften
+tools/og.html         Vorlage für das OG-Bild
 tests/*.test.js       node:test für progress, coords, scenes, audio-levels, typewriter-timing
 .nojekyll
 README.md
@@ -181,10 +185,11 @@ Markup je Szene:
 </section>
 ```
 
-- `.scene { height: calc(var(--h) * 1vh); }` mit `1dvh`-Override, wo unterstützt.
-- `.stage { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }`
-- `progress(top, height, viewportH, scrollY)` = `clamp((scrollY − top) / (height − viewportH), 0, 1)`; bei `height ≤ viewportH` gibt die Funktion 0 zurück, solange `scrollY < top`, sonst 1.
-- `scroll.js` misst `top` und `height` aller Szenen bei Start und `resize` (mit `ResizeObserver` auf `document.body` für Font-Nachladen), hört auf `scroll` (passiv), rechnet höchstens einmal pro Frame (`requestAnimationFrame`), schreibt `--p` als Inline-Style und `data-state="before|active|after"` nur bei Änderung. Nur Szenen, deren `data-state` `active` ist oder wird, werden geschrieben.
+- `.scene { position: relative; height: calc(var(--h) * 1vh); }` ist nur ein Scroll-Abstandhalter.
+- `.stage` und `.lines` sind `position: fixed; inset: 0` und nur sichtbar (`visibility`), wenn ihre Szene `data-state="active"` hat. Genau eine Szene ist aktiv: die, deren Abschnitt `scrollY` enthält (die erste auch bei `scrollY < 0`, die letzte auch über ihr Ende hinaus, damit sie hinter der Fußzeile stehen bleibt). Der Wechsel passiert exakt an der Abschnittsgrenze, wo beide Szenen zu 100 % vom Nebelvorhang bedeckt sind (siehe Szenenwechsel); dadurch gibt es keinen sichtbaren Schnitt und keine Schiebe-Strecke wie bei `position: sticky`.
+- `progress(top, range, scrollY)` = `clamp((scrollY − top) / range, 0, 1)`. `range` ist die Abschnittshöhe; bei der letzten Szene `Abschnittshöhe − viewportH`, damit `p = 1` erreichbar ist, bevor die Fußzeile ins Bild kommt.
+- `scroll.js` misst `top` und `height` aller Szenen bei Start und `resize`, hört auf `scroll` (passiv), rechnet höchstens einmal pro Frame (`requestAnimationFrame`), schreibt `--p` als Inline-Style und `data-state="before|active|after"` nur bei Änderung.
+- Stapelreihenfolge (z-index): Bühne 1 < Laterne 15 < Schnee 20 < Textzeilen 25 < Korn 30 < Vignette 31 < Bedienelemente 40.
 - Scrollgeschwindigkeit (px/s, geglättet) wird als `--vel` an `document.documentElement` gegeben und an `snow.js` gemeldet.
 - Alle Ebenenbewegungen sind CSS: `transform: translate3d(calc(var(--p) * var(--fx) * 1vw), calc(var(--p) * var(--fy) * 1vh), 0) scale(calc(1 + var(--p) * var(--fs)))`. Textzeilen: `opacity: clamp(0, (var(--p) - var(--in)) / 0.08, 1)` multipliziert mit dem Ausblendfaktor `clamp(0, (0.90 - var(--p)) / 0.08, 1)` (in Szene 7 ohne Ausblendfaktor).
 
@@ -244,7 +249,9 @@ Markup je Szene:
 ## 6. Tests und Verifikation
 
 **Automatisch (`node --test tests/`):**
-- `progress.test.js`: Randwerte (vor, in, nach der Szene, Szene kleiner als Viewport), Clamping, Monotonie.
+- `progress.test.js`: Randwerte (vor, in, nach der Szene), Clamping, Monotonie, Szenenzustand (erste/letzte Szene bleiben aktiv über ihre Grenzen hinaus).
+- `levels.test.js`: Schnee-Zielwerte je Szene inklusive Rampen (Prolog ab 0.55, Känguru ab 0.45) und Überblendung ab `p 0.85`.
+- `html.test.js`: `index.html` enthält die acht Szenen in Spec-Reihenfolge, und der Name „Barniz“ steht im Body genau einmal.
 - `coords.test.js`: Interpolation zwischen zwei Koordinaten, Formatierung (Nullen, Sekundenrundung, Strich-Variante im Prolog, `?` im Känguru).
 - `scenes.test.js`: alle acht Kennungen vorhanden, Reihenfolge, jede Szene hat Höhe, Schnee, Wind, Audio, Koordinaten; Höhen ≥ 150.
 - `audio-levels.test.js`: Zielpegel je Szene, lineare Überblendung ab `p 0.85` zur nächsten, letzte Szene blendet nicht weiter.
