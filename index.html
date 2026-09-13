@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Barniz?</title>
+  <meta name="description" content="Ein Winter an der Schlei. Und eine Frage.">
+  <meta name="theme-color" content="#070B14">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Barniz?">
+  <meta property="og:description" content="Ein Winter an der Schlei. Und eine Frage.">
+  <meta property="og:image" content="https://chrom5000.github.io/barniz/assets/og.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/scenes.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <!-- Verläufe, Filter und Landschafts-Symbole (Task 8–11) -->
+    </defs>
+  </svg>
+
+  <main id="reise">
+
+    <section class="scene" data-scene="prolog" style="--h: 150">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.10">Was wäre, wenn …</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="schlei" style="--h: 250">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.15">Ein Winter an der Schlei.</p>
+        <p class="line" style="--in: 0.40">Nördliches Ufer. Angeln.</p>
+        <p class="line" style="--in: 0.60">Irgendwo hier liegt eine Halbinsel.</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="damm" style="--h: 250">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.15">Eine Straße, die aufs Wasser führt.</p>
+        <p class="line" style="--in: 0.45">Am Ende: die kleinste Stadt Deutschlands.</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="lange-strasse" style="--h: 250">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.15">Rund dreihundert Menschen. Eine Straße. Eine Kirche.</p>
+        <p class="line" style="--in: 0.45">Und im Winter: sehr viel Ruhe.</p>
+        <p class="line line--small" style="--in: 0.65">Was wäre, wenn …</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="faehrberg" style="--h: 250">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.15">Am Fährberg steht ein Haus.</p>
+        <p class="line" style="--in: 0.40">Es steht leer.</p>
+        <p class="line" style="--in: 0.70">Oder?</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="tuer" style="--h: 250">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.12">Vielleicht Sessel, die schon drei Leben hatten.</p>
+        <p class="line" style="--in: 0.32">Vielleicht ein Plattenspieler.</p>
+        <p class="line" style="--in: 0.52">Vielleicht ein Drink, den es so nur hier gäbe.</p>
+        <p class="line" style="--in: 0.72">Vielleicht gar nichts.</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="drueben" style="--h: 250">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.15">Drüben: Schwansen.</p>
+        <p class="line" style="--in: 0.35">Hier: Angeln.</p>
+        <p class="line" style="--in: 0.55">Dazwischen: das Wasser.</p>
+        <p class="line" style="--in: 0.72">Und eine Frage.</p>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="kaenguru" style="--h: 200">
+      <div class="stage" aria-hidden="true">
+        <div class="veil"></div>
+      </div>
+      <div class="lines">
+        <p class="line" style="--in: 0.50">Ein Känguru an der Schlei ergibt keinen Sinn.</p>
+        <p class="line" style="--in: 0.65">Eine Bar in Arnis im Winter auch nicht.</p>
+        <p class="frage"><span class="sr-only">Gibt es Barniz?</span><span class="frage__typed" aria-hidden="true"></span></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot mono">
+    <p>Arnis · ein Winter · eine Schnapsidee</p>
+    <a href="impressum.html">Impressum</a>
+  </footer>
+
+  <canvas class="snow" aria-hidden="true"></canvas>
+  <div class="lantern" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="hud hud--coords mono" aria-hidden="true"><span class="coords"></span><span class="scene-label"></span></div>
+  <button class="hud hud--sound mono" type="button" aria-pressed="false">Ton an</button>
+  <div class="sr-only" aria-live="polite" id="frage-live"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

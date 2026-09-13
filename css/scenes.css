@@ -1,0 +1,144 @@
+/* ---- Szene = Scroll-Abstandhalter, Bühne und Text sind fix ---- */
+
+.scene {
+  position: relative;
+  height: calc(var(--h, 250) * 1vh);
+}
+
+.stage,
+.lines {
+  position: fixed;
+  inset: 0;
+  visibility: hidden;
+}
+.scene[data-state="active"] .stage,
+.scene[data-state="active"] .lines {
+  visibility: visible;
+}
+
+.stage {
+  z-index: 1;
+  overflow: hidden;
+  background: var(--night);
+}
+
+/* ---- Ebenen mit Parallaxe: Faktoren aus Spec Abschnitt 3 ---- */
+
+.layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20vw;
+  width: 140vw;
+  transform-origin: 50% 100%;
+  transform:
+    translate3d(calc(var(--p, 0) * var(--fx, 0) * 1vw), calc(var(--p, 0) * var(--fy, 0) * 1vh), 0)
+    scale(calc(1 + var(--p, 0) * var(--fs, 0)));
+}
+.layer > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: currentColor;
+}
+.layer--sky   { --fx: 0;   --fy: 0; --fs: 0; }
+.layer--far   { --fx: -1;  --fy: 0; --fs: 0.03; color: var(--fog-1); }
+.layer--water { --fx: 0;   --fy: 0; --fs: 0.06; color: var(--night-2); }
+.layer--mid   { --fx: -3;  --fy: 1; --fs: 0.08; color: var(--night-2); }
+.layer--fg    { --fx: -12; --fy: 2; --fs: 0.15; color: var(--night); }
+.scene[data-state="active"] .layer { will-change: transform; }
+
+/* ---- Nebel: zwei driftende Verläufe zwischen den Ebenen ---- */
+
+.fog {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20vw;
+  width: 140vw;
+  pointer-events: none;
+  transform: translate3d(calc(var(--p, 0) * var(--fx) * 1vw), 0, 0);
+}
+.fog::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 35% at var(--fog-x) var(--fog-y), rgba(58, 69, 82, 0.55), transparent 70%);
+  animation: fog-drift var(--fog-dur) ease-in-out infinite alternate;
+  animation-delay: var(--fog-delay, 0s);
+}
+.fog--a { --fx: -4; --fog-x: 35%; --fog-y: 58%; --fog-dur: 46s; }
+.fog--b { --fx: 6;  --fog-x: 70%; --fog-y: 66%; --fog-dur: 64s; --fog-delay: -20s; }
+@keyframes fog-drift {
+  from { transform: translateX(-3%); }
+  to   { transform: translateX(3%); }
+}
+
+/* ---- Vorhang: deckt den Szenenwechsel bei p 0.85→1 und 0→0.15 ---- */
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--fog-2) 0%, var(--fog-3) 60%, var(--fog-2) 100%);
+  opacity: max(
+    calc(var(--veil-out, 1) * clamp(0, (var(--p, 0) - 0.85) / 0.15, 1)),
+    calc(var(--veil-in, 1) * clamp(0, (0.15 - var(--p, 0)) / 0.15, 1))
+  );
+}
+.scene[data-scene="prolog"] .veil { --veil-in: 0; }
+.scene[data-scene="kaenguru"] .veil { --veil-out: 0; }
+
+/* ---- Textzeilen: erscheinen bei --in, lösen sich 0.82→0.90 auf ---- */
+
+.lines {
+  z-index: 25;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6em;
+  padding:
+    calc(var(--gutter) + var(--safe-top))
+    calc(var(--gutter) + var(--safe-right))
+    calc(20vh + var(--safe-bottom))
+    calc(var(--gutter) + var(--safe-left));
+  text-align: center;
+  font-size: var(--text-size);
+  text-wrap: balance;
+}
+
+.line {
+  max-width: 18em;
+  --fade-in: clamp(0, (var(--p, 0) - var(--in, 0)) / 0.08, 1);
+  --fade-out: clamp(0, (0.90 - var(--p, 0)) / 0.08, 1);
+  --vis: calc(var(--fade-in) * var(--fade-out));
+  opacity: var(--vis);
+  filter: blur(calc((1 - var(--vis)) * 8px));
+  transform: translateY(calc((1 - var(--vis)) * 0.4em));
+}
+.line--small { font-size: 0.6em; font-style: italic; color: var(--ice); }
+.scene[data-scene="kaenguru"] .line { --fade-out: 1; }
+
+.frage {
+  margin-top: 0.4em;
+  font-size: 1.25em;
+  min-height: 1.3em;
+}
+.frage__typed::after {
+  content: '';
+  display: inline-block;
+  width: 0.05em;
+  height: 0.9em;
+  margin-left: 0.08em;
+  vertical-align: -0.1em;
+  background: var(--ice);
+  animation: blink 0.9s steps(1) infinite;
+}
+.frage__typed:empty::after { display: none; }
+.frage__typed.is-done::after { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
