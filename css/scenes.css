@@ -5,16 +5,17 @@
   height: calc(var(--h, 250) * 1vh);
 }
 
+/* Inaktive Szenen sind display: none, nicht nur unsichtbar: Safari legt für
+   jede 3D-transformierte Ebene einen GPU-Puffer an (auf dem iPhone ~16 MB je
+   Ebene); mit 50 versteckten Ebenen stürzte der Seitenprozess ab. */
 .stage,
 .lines {
   position: fixed;
   inset: 0;
-  visibility: hidden;
+  display: none;
 }
-.scene[data-state="active"] .stage,
-.scene[data-state="active"] .lines {
-  visibility: visible;
-}
+.scene[data-state="active"] .stage { display: block; }
+.scene[data-state="active"] .lines { display: flex; }
 
 .stage {
   z-index: 1;
@@ -113,7 +114,6 @@
 .lines {
   z-index: 25;
   pointer-events: none;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -227,6 +227,14 @@
 html.has-lantern .lit { opacity: 0.55; }
 .lit .layer { color: var(--fog-3); }
 .lit .layer--wand svg { filter: brightness(1.7); }
+
+/* ---- Touch-Geräte: keine maskierten Laternen-Kopien (Vollbild-Offscreen je
+   Scroll-Frame) und kein Text-Blur; beides sprengt auf dem iPhone das
+   GPU-Budget. Der Lichtschein selbst bleibt. ---- */
+@media (pointer: coarse) {
+  .lit { display: none; }
+  .line { filter: none; }
+}
 
 /* ---- prefers-reduced-motion: keine Parallaxe, kein Nebeltreiben, keine Unschärfe ---- */
 @media (prefers-reduced-motion: reduce) {

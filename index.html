@@ -17,7 +17,9 @@
   <noscript>
     <style>
       .scene { height: auto; min-height: 100vh; }
-      .stage, .lines { position: relative; visibility: visible; }
+      .stage, .lines { position: relative; }
+      .stage { display: block; }
+      .lines { display: flex; }
       .line, .frage { opacity: 1; filter: none; transform: none; }
       .veil, .snow, .lantern, .grain, .hud--coords { display: none; }
     </style>

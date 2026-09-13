@@ -79,19 +79,21 @@ a { color: inherit; }
   pointer-events: none;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(242, 184, 75, 0.10) 0%, rgba(242, 184, 75, 0.04) 40%, transparent 70%);
-  mix-blend-mode: screen;
   transform: translate(calc(var(--lx) - 200px), calc(var(--ly) - 200px));
   opacity: 0;
 }
 html.has-lantern .lantern { opacity: 1; }
 
+/* Korn: 160 px Überstand, weil grain.js es per Transform (kein Repaint)
+   um bis zu ±150 px versetzt. Kein Blendmodus: Vollbild-Blendmodi zwingen
+   Safari, alles darunter in eine Gruppe zu rendern. */
 .grain {
   position: fixed;
-  inset: -10%;
+  inset: -160px;
   z-index: 30;
   pointer-events: none;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
+  opacity: 0.05;
+  will-change: transform;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");
   background-size: 300px 300px;
 }
